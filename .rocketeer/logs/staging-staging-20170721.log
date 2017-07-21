@@ -1,0 +1,8 @@
+$ mkdir -p /home/hoanghoi/deploy/framily-server/staging/releases
+mkdir -p /home/hoanghoi/deploy/framily-server/staging/releases
+
+$ mkdir -p /home/hoanghoi/deploy/framily-server/staging/current
+mkdir -p /home/hoanghoi/deploy/framily-server/staging/current
+
+$ mkdir -p /home/hoanghoi/deploy/framily-server/staging/shared
+mkdir -p /home/hoanghoi/deploy/framily-server/staging/shared
