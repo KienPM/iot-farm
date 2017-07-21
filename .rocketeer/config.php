@@ -7,7 +7,7 @@ return [
     // The name of the application to deploy
     // This will create a folder of the same name in the root directory
     // configured above, so be careful about the characters used
-    'application_name' => 'framily-server',
+    'application_name' => 'iot-farm',
 
     // Plugins
     ////////////////////////////////////////////////////////////////////
@@ -41,7 +41,7 @@ return [
             'host'      => '172.104.46.27',
             'username'  => 'hoanghoi',
             'password'  => '',
-            'key'       => '/home/hoanghoi/.ssh/id_rsa_iot_farmily',
+            'key'       => '/home/hoanghoi/.ssh/id_rsa_iot_farm',
             'keyphrase' => '',
             'agent'     => '',
             'db_role'   => true,
@@ -50,7 +50,7 @@ return [
             'host'      => '172.104.46.27',
             'username'  => 'hoanghoi',
             'password'  => '',
-            'key'       => '/home/hoanghoi/.ssh/id_rsa_iot_farmily',
+            'key'       => '/home/hoanghoi/.ssh/id_rsa_iot_farm',
             'keyphrase' => '',
             'agent'     => '',
             'db_role'   => true,
