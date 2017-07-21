@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+
+<h1>Connection Status: <span id="connection"></span></h1>
+<h1>Login name: <span id="name"></span></h1>
+<h1>Login email: <span id="email"></span></h1>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        connectionUpdate('Requesting JWT Token from Laravel');
+
+        $.ajax({
+            url: 'http://' + window.location.hostname+ '/token',
+            xhrFields: {
+                withCredentials: true
+            }
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            connectionUpdate('Could not retrieve token: ' + textStatus);
+        })
+        .done(function (result, textStatus, jqXHR) {
+            connectionUpdate('Got token: ' + result.token + ', connect to SocketIO');
+
+            var socket = io.connect('http://' + window.location.hostname+ ':3000');
+            socket.on('connect', function () {
+                connectionUpdate('Connected to SocketIO, Authenticating')
+                socket.emit('authenticate', {token: result.token});
+            });
+
+            socket.on('authenticated', function () {
+                connectionUpdate('Authenticated');
+            });
+
+            socket.on('unauthorized', function (data) {
+                connectionUpdate('Unauthorized, error: ' + data.message);
+            });
+
+            socket.on('disconnect', function () {
+                connectionUpdate('Disconnected');
+            });
+
+            socket.on('name', function (data) {
+                $('#name').html(data);
+            });
+
+            socket.on('email', function (data) {
+                $('#email').html(data);
+            });
+        });
+    });
+
+    function connectionUpdate(str) {
+        $('#connection').html(str);
+        console.log(str);
+    }
+</script>
+</body>
+</html>
