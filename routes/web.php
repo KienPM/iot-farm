@@ -12,10 +12,40 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return [
+        'status' => 'normal',
+        'message' => 'Server work normally!',
+    ];
 });
 
-Auth::routes();
+Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
+    Route::group(['namespace' => 'Auth', 'prefix' => 'session'], function () {
+        Route::any('/', 'SessionController@index');
+        Route::post('login', 'SessionController@login');
+        Route::post('logout', 'SessionController@logout');
+    });
+});
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/token', 'Auth\TokenController@token');
+Route::group(['namespace' => 'User'], function () {
+    Route::group(['namespace' => 'Auth', 'prefix' => 'session'], function () {
+        Route::any('/', 'SessionController@index');
+        Route::post('login', 'SessionController@login');
+        Route::post('logout', 'SessionController@logout');
+    });
+});
+
+Route::group(['namespace' => 'Partner', 'prefix' => 'partner'], function () {
+    Route::group(['namespace' => 'Auth', 'prefix' => 'session'], function () {
+        Route::any('/', 'SessionController@index');
+        Route::post('login', 'SessionController@login');
+        Route::post('logout', 'SessionController@logout');
+    });
+});
+
+Route::group(['namespace' => 'Sensor', 'prefix' => 'sensor'], function () {
+    Route::group(['namespace' => 'Auth', 'prefix' => 'session'], function () {
+        Route::any('/', 'SessionController@index');
+        Route::post('login', 'SessionController@login');
+        Route::post('logout', 'SessionController@logout');
+    });
+});

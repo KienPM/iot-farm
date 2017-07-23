@@ -15,7 +15,7 @@
         connectionUpdate('Requesting JWT Token from Laravel');
 
         $.ajax({
-            url: 'http://' + window.location.hostname+ '/token',
+            url: 'http://iot-farm.vn/partner/session',
             xhrFields: {
                 withCredentials: true
             }
@@ -24,12 +24,17 @@
             connectionUpdate('Could not retrieve token: ' + textStatus);
         })
         .done(function (result, textStatus, jqXHR) {
-            connectionUpdate('Got token: ' + result.token + ', connect to SocketIO');
+            if (result.status == 'not_login') {
+                console.log('Not login');
+                return false;
+            }
 
-            var socket = io.connect('http://' + window.location.hostname+ ':3000');
+            connectionUpdate('Got token: ' + result.auth_token + ', connect to SocketIO');
+
+            var socket = io.connect('http://iot-farm.vn:3000');
             socket.on('connect', function () {
                 connectionUpdate('Connected to SocketIO, Authenticating')
-                socket.emit('authenticate', {token: result.token});
+                socket.emit('authenticate', {token: result.auth_token});
             });
 
             socket.on('authenticated', function () {

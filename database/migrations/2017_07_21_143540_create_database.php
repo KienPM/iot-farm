@@ -116,6 +116,7 @@ class CreateDatabase extends Migration
             $table->integer('trunk_id')->unsigned();
             $table->integer('category_id')->unsigned();
             $table->string('name');
+            $table->string('identify_code')->unique();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
