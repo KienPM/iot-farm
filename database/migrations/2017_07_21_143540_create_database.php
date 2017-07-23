@@ -75,6 +75,8 @@ class CreateDatabase extends Migration
 
         Schema::create('order_items', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('order_id')->unsigned();
+            $table->integer('vegetable_in_store_id')->unsigned();
             $table->integer('quantity')->unsigned();
             $table->timestamps();
         });
@@ -96,6 +98,7 @@ class CreateDatabase extends Migration
 
         Schema::create('stores', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('partner_id')->unsigned();
             $table->string('address');
             $table->text('info');
             $table->timestamps();
