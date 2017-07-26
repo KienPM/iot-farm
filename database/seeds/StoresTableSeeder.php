@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Carbon\Carbon;
+use App\Models\Store;
+use App\Models\Partner;
 
 class StoresTableSeeder extends Seeder
 {
@@ -13,16 +16,6 @@ class StoresTableSeeder extends Seeder
     {
         $now = Carbon::now();
         DB::table('stores')->truncate();
-        // DB::table('stores')->insert([
-        //     [
-        //         'id' => 1,
-        //         'name' => 'hoanghoiuser',
-        //         'email' => 'hoanghoi1310@gmail.com',
-        //         'phone_number' => '0982708002',
-        //         'password' => bcrypt('12344321'),
-        //         'created_at' => $now,
-        //         'updated_at' => $now,
-        //     ],
-        // ]);
+        factory(Store::class, 10)->create();
     }
 }

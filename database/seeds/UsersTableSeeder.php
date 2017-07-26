@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
+use App\Models\User;
 
 class UsersTableSeeder extends Seeder
 {
@@ -25,5 +26,6 @@ class UsersTableSeeder extends Seeder
                 'updated_at' => $now,
             ],
         ]);
+        factory(User::class, 40)->create();
     }
 }
