@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 
-class Sensor extends Model implements
+class Device extends Model implements
     AuthenticatableContract,
     AuthorizableContract
 {
@@ -20,12 +20,17 @@ class Sensor extends Model implements
      * @var array
      */
     protected $fillable = [
-        'trunk_id', 'category_id', 'name', 'password',
+        'store_id', 'category_id', 'name', 'password', 'is_actived',
     ];
 
-    protected $table = 'sensors';
+    protected $table = 'devices';
 
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function store()
+    {
+        return $this->belongsTo(Store::class);
+    }
 }

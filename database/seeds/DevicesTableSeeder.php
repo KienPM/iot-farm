@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
 
-class SensorsTableSeeder extends Seeder
+class DevicesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,15 +13,14 @@ class SensorsTableSeeder extends Seeder
     public function run()
     {
         $now = Carbon::now();
-        DB::table('sensors')->truncate();
-        DB::table('sensors')->insert([
+        DB::table('devices')->truncate();
+        DB::table('devices')->insert([
             [
                 'id' => 1,
                 'name' => 'Cam bien nhiet do',
                 'password' => bcrypt('12344321'),
-                'trunk_id' => 1,
+                'store_id' => 1,
                 'category_id' => 1,
-                'identify_code' => 'nd001',
                 'created_at' => $now,
                 'updated_at' => $now,
             ],

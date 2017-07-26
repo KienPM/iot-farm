@@ -51,9 +51,9 @@ return [
             'provider' => 'partners',
         ],
 
-        'sensor' => [
+        'device' => [
             'driver' => 'session',
-            'provider' => 'sensors',
+            'provider' => 'devices',
         ],
 
         'api' => [
@@ -95,9 +95,9 @@ return [
             'model' => App\Models\Partner::class,
         ],
 
-        'sensors' => [
+        'devices' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Sensor::class,
+            'model' => App\Models\Device::class,
         ],
 
         // 'users' => [

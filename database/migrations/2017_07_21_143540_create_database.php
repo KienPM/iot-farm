@@ -19,6 +19,7 @@ class CreateDatabase extends Migration
             $table->string('email')->unique();
             $table->string('phone_number')->nullable();
             $table->string('password');
+            $table->boolean('is_actived')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });
@@ -29,6 +30,8 @@ class CreateDatabase extends Migration
             $table->string('email')->unique();
             $table->string('phone_number')->nullable();
             $table->string('password');
+            $table->boolean('is_actived')->default(true);
+            $table->boolean('is_super')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });
@@ -39,6 +42,7 @@ class CreateDatabase extends Migration
             $table->string('email')->unique();
             $table->string('phone_number')->nullable();
             $table->string('password');
+            $table->boolean('is_actived')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });
@@ -61,6 +65,7 @@ class CreateDatabase extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->string('account');
+            $table->boolean('is_actived')->default(true);
             $table->timestamps();
         });
 
@@ -70,6 +75,7 @@ class CreateDatabase extends Migration
             $table->integer('bank_account_id')->unsigned();
             $table->integer('store_id')->unsigned();
             $table->integer('total_price')->unsigned();
+            $table->tinyInteger('status')->unsigned();
             $table->timestamps();
         });
 
@@ -85,6 +91,7 @@ class CreateDatabase extends Migration
             $table->increments('id');
             $table->string('name');
             $table->text('description');
+            $table->boolean('is_actived')->default(true);
             $table->timestamps();
         });
 
@@ -101,31 +108,26 @@ class CreateDatabase extends Migration
             $table->integer('partner_id')->unsigned();
             $table->string('address');
             $table->text('info');
+            $table->boolean('is_actived')->default(true);
             $table->timestamps();
         });
 
-        Schema::create('trunks', function (Blueprint $table) {
+        Schema::create('devices', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('store_id')->unsigned();
-            $table->string('code');
-            $table->timestamps();
-        });
-
-        Schema::create('sensors', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('trunk_id')->unsigned();
             $table->integer('category_id')->unsigned();
             $table->string('name');
-            $table->string('identify_code')->unique();
             $table->string('password');
+            $table->boolean('is_actived')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });
 
-        Schema::create('sensor_categories', function (Blueprint $table) {
+        Schema::create('device_categories', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->char('unit', 4);
+            $table->string('symbol');
+            $table->text('description');
             $table->timestamps();
         });
     }
@@ -149,7 +151,7 @@ class CreateDatabase extends Migration
         Schema::dropIfExists('vegetables_in_stores');
         Schema::dropIfExists('stores');
         Schema::dropIfExists('trunks');
-        Schema::dropIfExists('sensors');
-        Schema::dropIfExists('sensor_categories');
+        Schema::dropIfExists('devices');
+        Schema::dropIfExists('device_categories');
     }
 }

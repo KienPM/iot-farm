@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SensorCategory extends Model
+class DeviceCategory extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,8 +12,8 @@ class SensorCategory extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'unit',
+        'name', 'symbol', 'description',
     ];
 
-    protected $table = 'sensor_categories';
+    protected $table = 'device_categories';
 }

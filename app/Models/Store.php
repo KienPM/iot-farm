@@ -12,8 +12,13 @@ class Store extends Model
      * @var array
      */
     protected $fillable = [
-        'partner_id', 'address', 'info',
+        'partner_id', 'address', 'info', 'is_actived',
     ];
 
     protected $table = 'stores';
+
+    public function devices()
+    {
+        return $this->hasMany(Device::class)->where('devices.is_active', true);
+    }
 }

@@ -68,7 +68,15 @@ abstract class SessionController extends Controller
         $result = [];
         $guard = $this->getGuard();
         $user = Auth::guard($guard)->user();
-        $claims = ['name' => $user->name, $this->identify() => $user->{$this->identify()}, 'guard' => $guard];
+        $claims = [
+            'name' => $user->name,
+            $this->identify() => $user->{$this->identify()},
+            'guard' => $guard,
+        ];
+        // if ($guard == 'sensor') {
+        //     $claims['store'] =
+        // }
+
         $authToken = $auth->fromUser($user, $claims);
         $result['user'] = $user->toArray();
         $result['auth_token'] = $authToken;

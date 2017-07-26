@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Session\TokenMismatchException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -19,7 +20,7 @@ class Handler extends ExceptionHandler
         \Illuminate\Auth\Access\AuthorizationException::class,
         \Symfony\Component\HttpKernel\Exception\HttpException::class,
         \Illuminate\Database\Eloquent\ModelNotFoundException::class,
-        \Illuminate\Session\TokenMismatchException::class,
+        // \Illuminate\Session\TokenMismatchException::class,
         \Illuminate\Validation\ValidationException::class,
     ];
 
@@ -50,6 +51,13 @@ class Handler extends ExceptionHandler
                 'status' => 'warning',
                 'message' => trans('response.not_found'),
             ], 404);
+        }
+
+        if ($exception instanceof TokenMismatchException) {
+            return response()->json([
+                'status' => 'error',
+                'message' => trans('response.token_mismatch'),
+            ], 400);
         }
 
         return parent::render($request, $exception);

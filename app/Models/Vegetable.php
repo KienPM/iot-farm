@@ -12,7 +12,7 @@ class Vegetable extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'description',
+        'name', 'description', 'is_actived',
     ];
 
     protected $table = 'vegetables';

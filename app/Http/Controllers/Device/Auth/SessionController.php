@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Sensor\Auth;
+namespace App\Http\Controllers\Device\Auth;
 
 use App\Http\Controllers\Core\Auth\SessionController as BaseSessionController;
 
 class SessionController extends BaseSessionController
 {
-    protected $guard = 'sensor';
+    protected $guard = 'device';
 
     protected function identify()
     {

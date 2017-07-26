@@ -42,7 +42,7 @@ Route::group(['namespace' => 'Partner', 'prefix' => 'partner'], function () {
     });
 });
 
-Route::group(['namespace' => 'Sensor', 'prefix' => 'sensor'], function () {
+Route::group(['namespace' => 'Device', 'prefix' => 'device'], function () {
     Route::group(['namespace' => 'Auth', 'prefix' => 'session'], function () {
         Route::any('/', 'SessionController@index');
         Route::post('login', 'SessionController@login');
