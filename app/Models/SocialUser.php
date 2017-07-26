@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class SocialUser extends Model
 {
+    const FACEBOOK_ACCOUNT = 1;
+    const GOOGLE_ACCOUNT = 2;
+
     /**
      * The attributes that are mass assignable.
      *
