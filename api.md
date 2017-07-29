@@ -4,12 +4,32 @@
 - Đối tác: sẽ thêm /partner
 - Cảm biến: sẽ thêm /sensor
 
-
 **Ví dụ:** Domain của server là iot-farm.vn thì trang xem trạng thái đăng nhập sẽ là
 - admin: http://iot-farm.vn/admin/session
 - user: http://iot-farm.vn/session
 - partner: http://iot-farm.vn/partner/session
 - sensor: http://iot-farm.vn/sensor/session
+
+## Tài khoản đăng nhập
+### Admin
+
+**email:** hoanghoi1310@gmail.com
+**password:** 12344321
+
+### Partner
+
+**email:** hoanghoi1310@gmail.com
+**password:** 12344321
+
+### User
+
+**email:** hoanghoi1310@gmail.com
+**password:** 12344321
+
+### Device
+
+**identify_code:** hoanghoi1310@gmail.com
+**password:** 12344321
 
 ## Login
 ### 1. Xem thông tin đăng nhập
