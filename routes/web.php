@@ -29,7 +29,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
         Route::get('/', 'StoreController@index');
         Route::group(['prefix' => '{store}'], function () {
             Route::get('/', 'StoreController@show');
-            Route::get('sensors', 'StoreController@sensors');
+            Route::get('devices', 'StoreController@devices');
         });
     });
 

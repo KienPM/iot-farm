@@ -10,7 +10,7 @@ class StoreController extends BaseController
 {
     protected $guard = 'admin';
 
-    public function sensors(Store $store)
+    public function devices(Store $store)
     {
         return $store->load(['devices.category']);
     }

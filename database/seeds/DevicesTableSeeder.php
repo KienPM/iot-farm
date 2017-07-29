@@ -22,7 +22,7 @@ class DevicesTableSeeder extends Seeder
         DB::table('devices')->insert([
             [
                 'id' => 1,
-                'identify_code' => 'nd001',
+                'identify_code' => 'AAAAA0000000001',
                 'name' => 'Cam bien nhiet do',
                 'password' => bcrypt('12344321'),
                 'store_id' => $storeId,

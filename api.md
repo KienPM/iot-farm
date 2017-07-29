@@ -2,13 +2,13 @@
 - User: link sẽ là link mặc
 - admin: sẽ thêm /admin
 - Đối tác: sẽ thêm /partner
-- Cảm biến: sẽ thêm /sensor
+- Thiết bị, Cảm biến: sẽ thêm /device
 
 **Ví dụ:** Domain của server là iot-farm.vn thì trang xem trạng thái đăng nhập sẽ là
 - admin: http://iot-farm.vn/admin/session
 - user: http://iot-farm.vn/session
 - partner: http://iot-farm.vn/partner/session
-- sensor: http://iot-farm.vn/sensor/session
+- device: http://iot-farm.vn/device/session
 
 ## Tài khoản đăng nhập
 ### Admin
@@ -180,7 +180,7 @@ socket.on('connect', function () {
 
 **Mô tả** Xem chi tiết một store bao gồm các thông tin cảm biến có trong store, loại cảm biến.
 
-**Path:** /stores/<store id>/sensors
+**Path:** /stores/<store id>/devices
 
 **Method:** GET
 

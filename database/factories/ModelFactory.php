@@ -63,6 +63,7 @@ $factory->define(Device::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'password' => bcrypt('12344321'),
+        'identify_code' => $faker->unique()->regexify('[A-Z]{5}[0-9]{10}'),
         'store_id' => function() {
             return factory(Store::class)->create()->id;
         },
