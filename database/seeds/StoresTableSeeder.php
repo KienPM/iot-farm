@@ -23,7 +23,7 @@ class StoresTableSeeder extends Seeder
         $vegetablesInStore = $vegetables->mapWithKeys(function ($vegetable) use ($faker) {
             return [$vegetable->id => ['price' => $faker->numberBetween(5,20)]];
         })->toArray();
-        factory(Store::class, 10000)->create()->each(function ($store) use ($vegetablesInStore) {
+        factory(Store::class, 3000)->create()->each(function ($store) use ($vegetablesInStore) {
             $store->devices()->saveMany(factory(Device::class, 100)->make());
             $store->vegetables()->attach($vegetablesInStore);
         });;
