@@ -14,4 +14,10 @@ class StoreController extends BaseController
     {
         return $store->load(['devices.category']);
     }
+
+    public function create(Request $request)
+    {
+        return 1;
+        // return $store->load(['devices.category']);
+    }
 }

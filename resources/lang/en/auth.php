@@ -16,4 +16,5 @@ return [
     'failed' => 'These credentials do not match our records.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
     'not_login' => 'User not logged in!',
+    'not_actived' => 'User not actived!',
 ];

@@ -3,9 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Traits\Filterable;
 
 class Store extends Model
 {
+    use Filterable;
+
+    const ITEMS_PER_PAGE = 10;
+
     /**
      * The attributes that are mass assignable.
      *

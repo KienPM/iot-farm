@@ -164,7 +164,67 @@ socket.on('connect', function () {
 
 **Method:** GET
 
-**Response:**
+**Response:** Cấu trúc
+
+```
+{
+    "data": [
+        {
+            "id": 3501,
+            "partner_id": 3502,
+            "address": "25861 Everette Inlet Suite 799",
+            "info": "534 Hoppe Locks",
+            "is_actived": 1,
+            "created_at": "2017-07-29 17:02:09",
+            "updated_at": "2017-07-29 17:02:09",
+            "partner": {
+                "id": 3502,
+                "name": "Bryana Lang",
+                "email": "jerde.freda@example.net",
+                "phone_number": "1-877-684-1034",
+                "is_actived": 1,
+                "created_at": "2017-07-29 17:02:09",
+                "updated_at": "2017-07-29 17:02:09"
+            }
+        },
+        {
+            "id": 1799,
+            "partner_id": 1800,
+            "address": "8534 Elyse Trail",
+            "info": "82875 Haley Spring Suite 067",
+            "is_actived": 1,
+            "created_at": "2017-07-29 17:00:52",
+            "updated_at": "2017-07-29 17:00:52",
+            "partner": {
+                "id": 1800,
+                "name": "Prof. Caroline Kuhic Jr.",
+                "email": "lward@example.com",
+                "phone_number": "800.887.8844",
+                "is_actived": 1,
+                "created_at": "2017-07-29 16:59:19",
+                "updated_at": "2017-07-29 16:59:19"
+            }
+        }
+    ],
+    "current_page": 1, //page hiện tại
+    "from": 1, //Item bắt đầu
+    "last_page": 2, //page cuối = max page
+    "next_page_url": "http://iot-farm.vn/admin/stores?page=2",
+    "path": "http://iot-farm.vn/admin/stores",
+    "per_page": 10, //số items max trong 1 page
+    "prev_page_url": null,
+    "to": 10, //Item kết thúc
+    "total": 14 //số lượng items
+}
+```
+
+**Thêm tùy chọn:**
+Search: Tìm kiếm theo địa chỉ hoặc mô tả trong của store: `/stores?quick_search=<addr or infor>&page=2`
+
+Tạm thời cho tìm kiếm cơ bản, sau sẽ có tìm kiếm nâng cao, tìm store theo loại rau, mức giá,...
+
+Items Per page: Số items trong 1 page, mặc định là 10. Có thể set bằng query: `/stores?items_per_page=20`
+
 
 #### 2. Chi tiết store
 
