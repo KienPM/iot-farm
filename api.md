@@ -156,7 +156,7 @@ socket.on('connect', function () {
 
 *Chú ý:* prefix của admin là có `/admin`
 
-#### Xem danh sách store
+#### 1. Xem danh sách store
 
 **Mô tả:** Xem danh sách các store trong hệ thống bao gồm cả store đang active và không active
 
@@ -166,7 +166,7 @@ socket.on('connect', function () {
 
 **Response:**
 
-#### Chi tiết store
+#### 2. Chi tiết store
 
 **Mô tả** Xem chi tiết một store bao gồm các thông tin loại rau có trong store đó và giá bán từng loại.
 
@@ -176,7 +176,7 @@ socket.on('connect', function () {
 
 **Response:**
 
-#### Danh sách các cảm biến có trong store
+#### 3. Danh sách các cảm biến có trong store
 
 **Mô tả** Xem chi tiết một store bao gồm các thông tin cảm biến có trong store, loại cảm biến.
 
