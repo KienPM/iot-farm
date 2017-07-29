@@ -31,7 +31,7 @@
 
 ### Device
 
-**identify_code:** nd001
+**identify_code:** AAAAA0000000001
 
 **password:** 12344321
 
