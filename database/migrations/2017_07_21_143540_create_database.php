@@ -95,7 +95,7 @@ class CreateDatabase extends Migration
             $table->timestamps();
         });
 
-        Schema::create('vegetables_in_stores', function (Blueprint $table) {
+        Schema::create('vegetable_in_store', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('vegetable_id')->unsigned();
             $table->integer('store_id')->unsigned();
@@ -148,9 +148,8 @@ class CreateDatabase extends Migration
         Schema::dropIfExists('orders');
         Schema::dropIfExists('order_items');
         Schema::dropIfExists('vegetables');
-        Schema::dropIfExists('vegetables_in_stores');
+        Schema::dropIfExists('vegetable_in_store');
         Schema::dropIfExists('stores');
-        Schema::dropIfExists('trunks');
         Schema::dropIfExists('devices');
         Schema::dropIfExists('device_categories');
     }

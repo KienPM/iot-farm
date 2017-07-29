@@ -33,4 +33,9 @@ class Device extends Model implements
     {
         return $this->belongsTo(Store::class);
     }
+
+    public function category()
+    {
+        return $this->belongsTo(DeviceCategory::class);
+    }
 }

@@ -27,4 +27,14 @@ class Partner extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function stores()
+    {
+        return $this->hasMany(Stores::class)->where('is_actived', true);
+    }
+
+    public function allStores()
+    {
+        return $this->hasMany(Stores::class);
+    }
 }

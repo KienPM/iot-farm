@@ -19,6 +19,22 @@ class Store extends Model
 
     public function devices()
     {
-        return $this->hasMany(Device::class)->where('devices.is_active', true);
+        return $this->hasMany(Device::class);
+    }
+
+    public function activeDevices()
+    {
+        return $this->devices()->where('devices.is_active', true);
+    }
+
+    public function partner()
+    {
+        return $this->belongsTo(Partner::class);
+    }
+
+    public function vegetables()
+    {
+        return $this->belongsToMany(Vegetable::class, 'vegetable_in_store')
+            ->withPivot(['price']);
     }
 }

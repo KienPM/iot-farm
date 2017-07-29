@@ -24,6 +24,16 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
         Route::post('login', 'SessionController@login');
         Route::post('logout', 'SessionController@logout');
     });
+
+    Route::group(['prefix' => 'stores'], function () {
+        Route::get('/', 'StoreController@index');
+        Route::group(['prefix' => '{store}'], function () {
+            Route::get('/', 'StoreController@show');
+            Route::get('sensors', 'StoreController@sensors');
+        });
+    });
+
+
 });
 
 Route::group(['namespace' => 'User'], function () {
@@ -31,6 +41,11 @@ Route::group(['namespace' => 'User'], function () {
         Route::any('/', 'SessionController@index');
         Route::post('login', 'SessionController@login');
         Route::post('logout', 'SessionController@logout');
+    });
+
+    Route::group(['prefix' => 'stores'], function () {
+        Route::get('/', 'StoreController@index');
+        Route::get('{store}', 'StoreController@show');
     });
 });
 

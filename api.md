@@ -1,5 +1,5 @@
 ## Base link
-- User: link sẽ là link mặc 
+- User: link sẽ là link mặc
 - admin: sẽ thêm /admin
 - Đối tác: sẽ thêm /partner
 - Cảm biến: sẽ thêm /sensor
@@ -127,6 +127,42 @@ socket.on('connect', function () {
 });
 ```
 
+## Store API
+### Admin
+
+*Chú ý:* prefix của admin là có `/admin`
+
+#### Xem danh sách store
+
+**Mô tả:** Xem danh sách các store trong hệ thống bao gồm cả store đang active và không active
+
+**Path:** /stores
+
+**Method:** GET
+
+**Response:**
+
+#### Chi tiết store
+
+**Mô tả** Xem chi tiết một store bao gồm các thông tin loại rau có trong store đó và giá bán từng loại.
+
+**Path:** /stores/<store id>
+
+**Method:** GET
+
+**Response:**
+
+#### Danh sách các cảm biến có trong store
+
+**Mô tả** Xem chi tiết một store bao gồm các thông tin cảm biến có trong store, loại cảm biến.
+
+**Path:** /stores/<store id>/sensors
+
+**Method:** GET
+
+**Response:**
+
+
 ## Thông báo lỗi
 ### Link không tồn tại (not found)
 ```
@@ -150,7 +186,7 @@ socket.on('connect', function () {
 
 Nếu biết một chút code web có thể xem ví dụ ở file `/static/auth.html`
 
-###  2. 
+###  2.
 
 **Path:**
 
