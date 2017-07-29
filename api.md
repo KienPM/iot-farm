@@ -14,21 +14,25 @@
 ### Admin
 
 **email:** hoanghoi1310@gmail.com
+
 **password:** 12344321
 
 ### Partner
 
 **email:** hoanghoi1310@gmail.com
+
 **password:** 12344321
 
 ### User
 
 **email:** hoanghoi1310@gmail.com
+
 **password:** 12344321
 
 ### Device
 
-**identify_code:** hoanghoi1310@gmail.com
+**identify_code:** nd001
+
 **password:** 12344321
 
 ## Login

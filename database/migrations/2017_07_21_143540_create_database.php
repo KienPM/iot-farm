@@ -117,6 +117,7 @@ class CreateDatabase extends Migration
             $table->integer('store_id')->unsigned();
             $table->integer('category_id')->unsigned();
             $table->string('name');
+            $table->string('identify_code')->unique();
             $table->string('password');
             $table->boolean('is_actived')->default(true);
             $table->rememberToken();
