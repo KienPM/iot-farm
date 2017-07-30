@@ -38,4 +38,14 @@ class Device extends Model implements
     {
         return $this->belongsTo(DeviceCategory::class);
     }
+
+    public function isActive()
+    {
+        return $this->is_actived;
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('is_actived', true);
+    }
 }

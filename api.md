@@ -1,5 +1,7 @@
 ## Base link
-- User: link sẽ là link mặc
+- Server domain: http://li1626-27.members.linode.com/
+
+- User: link sẽ là link mặc định
 - admin: sẽ thêm /admin
 - Đối tác: sẽ thêm /partner
 - Thiết bị, Cảm biến: sẽ thêm /device

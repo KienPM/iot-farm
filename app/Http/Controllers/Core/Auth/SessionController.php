@@ -65,20 +65,12 @@ abstract class SessionController extends Controller
 
     protected function userWasAuthenticated($auth)
     {
-        $result = [];
         $guard = $this->getGuard();
         $user = Auth::guard($guard)->user();
         if ($user->isActive()) {
-            $claims = [
-                'name' => $user->name,
-                $this->identify() => $user->{$this->identify()},
-                'guard' => $guard,
-            ];
-
+            $claims = $this->makeAuthClaims($user);
             $authToken = $auth->fromUser($user, $claims);
-            $result['user'] = $user->toArray();
-            $result['auth_token'] = $authToken;
-            $result['status'] = 'logined';
+            $result = $this->makeUserResult($user, $authToken);
 
             return $this->response($result);
         }
@@ -87,6 +79,25 @@ abstract class SessionController extends Controller
         return $this->response([
             'message' => trans('auth.not_actived')
         ], 400);
+    }
+
+    protected function makeAuthClaims($user)
+    {
+        return [
+            'id' => $user->id,
+            'name' => $user->name,
+            $this->identify() => $user->{$this->identify()},
+            'guard' => $this->getGuard(),
+        ];
+    }
+
+    protected function makeUserResult($user, $authToken)
+    {
+        return [
+            'user' => $user->toArray(),
+            'auth_token' => $authToken,
+            'status' => 'logined',
+        ];
     }
 
     protected function responseNotLogin()

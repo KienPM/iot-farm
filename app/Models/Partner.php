@@ -8,11 +8,11 @@ class Partner extends BaseUser
 
     public function stores()
     {
-        return $this->hasMany(Stores::class)->where('is_actived', true);
+        return $this->hasMany(Store::class)->where('is_actived', true);
     }
 
     public function allStores()
     {
-        return $this->hasMany(Stores::class);
+        return $this->hasMany(Store::class);
     }
 }

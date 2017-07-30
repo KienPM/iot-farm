@@ -23,6 +23,8 @@ class StoresTableSeeder extends Seeder
         $deviceCategory = DeviceCategory::all();
         $deviceCategoryIdMax = $deviceCategory->count() - 1;
         $faker->addProvider(new Faker\Provider\Base($faker));
+        $masterPartner = Partner::find(1);
+        $masterPartner->stores()->saveMany(factory(Store::class, 10)->make());
 
         $vegetablesInStore = $vegetables->mapWithKeys(function ($vegetable) use ($faker) {
             return [$vegetable->id => ['price' => $faker->numberBetween(5,20)]];
@@ -34,6 +36,6 @@ class StoresTableSeeder extends Seeder
                     'category_id' => $deviceCategory[$faker->numberBetween(0, $deviceCategoryIdMax)]->id,
                 ]));
                 $store->vegetables()->attach($vegetablesInStore);
-            });;
+            });
     }
 }

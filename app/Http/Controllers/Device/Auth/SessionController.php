@@ -12,4 +12,15 @@ class SessionController extends BaseSessionController
     {
         return 'identify_code';
     }
+
+    protected function makeAuthClaims($device)
+    {
+        return [
+            'id' => $device->id,
+            'name' => $device->name,
+            $this->identify() => $device->{$this->identify()},
+            'guard' => $this->getGuard(),
+            'store_id' => $device->store_id,
+        ];
+    }
 }
