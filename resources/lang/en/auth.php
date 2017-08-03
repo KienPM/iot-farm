@@ -17,4 +17,5 @@ return [
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
     'not_login' => 'User not logged in!',
     'not_actived' => 'User not actived!',
+    'login_success' => 'Login success!',
 ];

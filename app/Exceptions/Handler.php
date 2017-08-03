@@ -5,8 +5,10 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use App\Core\Responses\Response;
 
 class Handler extends ExceptionHandler
 {
@@ -47,17 +49,15 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         if ($exception instanceof NotFoundHttpException) {
-            return response()->json([
-                'status' => 'warning',
-                'message' => trans('response.not_found'),
-            ], 404);
+            return Response::notFoundHttpException();
         }
 
         if ($exception instanceof TokenMismatchException) {
-            return response()->json([
-                'status' => 'error',
-                'message' => trans('response.token_mismatch'),
-            ], 400);
+            return Response::tokenMismatchException();
+        }
+
+        if ($exception instanceof MethodNotAllowedHttpException) {
+            return Response::methodNotAllowedHttpException();
         }
 
         return parent::render($request, $exception);
@@ -72,10 +72,10 @@ class Handler extends ExceptionHandler
      */
     protected function unauthenticated($request, AuthenticationException $exception)
     {
-        if ($request->expectsJson()) {
-            return response()->json(['error' => 'Unauthenticated.'], 401);
-        }
+        // if ($request->expectsJson()) {
+            return Response::unauthenticated();
+        // }
 
-        return redirect()->guest(route('login'));
+        // return redirect()->guest(route('login'));
     }
 }

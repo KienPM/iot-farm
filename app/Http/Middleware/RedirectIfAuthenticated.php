@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use App\Core\Responses\Response;
 
 class RedirectIfAuthenticated
 {
@@ -18,10 +19,7 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
-            return response()->json([
-                'status' => 'error',
-                'message' => trans('response.can_not_continue_request'),
-            ], 400);
+            return Response::cantContinue();
         }
 
         return $next($request);

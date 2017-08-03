@@ -39,7 +39,7 @@ $factory->define(Admin::class, function (Faker\Generator $faker) {
 
     return [
         'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
+        'email' => $faker->unique()->freeEmail,
         'password' => bcrypt('12344321'),
         'phone_number' => $faker->tollFreePhoneNumber(),
         'remember_token' => str_random(10),
@@ -123,7 +123,7 @@ $factory->define(Partner::class, function (Faker\Generator $faker) {
 
     return [
         'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
+        'email' => $faker->unique()->freeEmail,
         'password' => bcrypt('12344321'),
         'phone_number' => $faker->tollFreePhoneNumber(),
         'remember_token' => str_random(32),
@@ -160,7 +160,7 @@ $factory->define(User::class, function (Faker\Generator $faker) {
 
     return [
         'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
+        'email' => $faker->unique()->freeEmail,
         'password' => bcrypt('12344321'),
         'phone_number' => $faker->tollFreePhoneNumber(),
         'remember_token' => str_random(32),

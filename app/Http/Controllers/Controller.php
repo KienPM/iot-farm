@@ -61,10 +61,6 @@ class Controller extends BaseController
      */
     protected function response($data, $status = 200)
     {
-        if (!is_array($data)) {
-            dd($data, $status);
-        }
-
         $data['token'] = csrf_token();
         return response()->json($data, $status);
     }

@@ -7,6 +7,7 @@ use Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Tymon\JWTAuth\JWTAuth;
+use App\Core\Responses\Auth\AuthResponse;
 
 abstract class SessionController extends Controller
 {
@@ -15,13 +16,15 @@ abstract class SessionController extends Controller
         $this->middleware($this->guestMiddleware(), ['except' => ['logout', 'index']]);
     }
 
+    abstract protected function identify();
+
     public function index(JWTAuth $auth)
     {
         if (Auth::guard($this->getGuard())->check()) {
             return $this->userWasAuthenticated($auth);
         }
 
-        return $this->responseNotLogin();
+        return AuthResponse::notLoginResponse();
     }
 
     public function login(Request $request, JWTAuth $auth)
@@ -33,14 +36,14 @@ abstract class SessionController extends Controller
             return $this->userWasAuthenticated($auth);
         }
 
-        return $this->responseToFailedLogin();
+        return AuthResponse::loginFailedResponse();
     }
 
     public function logout()
     {
         Auth::guard($this->getGuard())->logout();
 
-        return $this->responseNotLogin();
+        return AuthResponse::notLoginResponse();
     }
 
     protected function attemptLogin(Request $request, $credentials)
@@ -61,7 +64,6 @@ abstract class SessionController extends Controller
         return $request->only($this->identify(), 'password');
     }
 
-    abstract protected function identify();
 
     protected function userWasAuthenticated($auth)
     {
@@ -72,13 +74,11 @@ abstract class SessionController extends Controller
             $authToken = $auth->fromUser($user, $claims);
             $result = $this->makeUserResult($user, $authToken);
 
-            return $this->response($result);
+            return AuthResponse::loginSuccessResponse($result);
         }
 
         $this->logout();
-        return $this->response([
-            'message' => trans('auth.not_actived')
-        ], 400);
+        return AuthResponse::userNotActiveResponse();
     }
 
     protected function makeAuthClaims($user)
@@ -96,7 +96,6 @@ abstract class SessionController extends Controller
         return [
             'user' => $user->toArray(),
             'auth_token' => $authToken,
-            'status' => 'logined',
         ];
     }
 

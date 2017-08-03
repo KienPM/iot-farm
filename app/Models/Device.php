@@ -20,7 +20,7 @@ class Device extends Model implements
      * @var array
      */
     protected $fillable = [
-        'store_id', 'category_id', 'name', 'password', 'is_actived',
+        'identify_code', 'store_id', 'category_id', 'name', 'password', 'is_actived',
     ];
 
     protected $table = 'devices';
