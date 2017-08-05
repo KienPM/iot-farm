@@ -12,6 +12,13 @@
 - partner: http://iot-farm.vn/partner/session
 - device: http://iot-farm.vn/device/session
 
+## Chú ý
+### Các POST request phải có token trên header
+X-CSRF-TOKEN: token_nhan_duoc
+
+### Tất cả cá request phải có Header accept json
+Accept: application/json
+
 ## Tài khoản đăng nhập
 ### Admin
 
