@@ -151,6 +151,8 @@ $factory->define(Store::class, function (Faker\Generator $faker) {
         },
         'address' => $faker->streetAddress,
         'info' => $faker->streetAddress,
+        'latitude' => $faker->latitude(20.7665365, 21.3909648),
+        'longitude' => $faker->longitude(104.9722854, 105.9933738),
         'is_actived' => true,
     ];
 });

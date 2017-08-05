@@ -30,7 +30,7 @@ class StoresTableSeeder extends Seeder
             return [$vegetable->id => ['price' => $faker->numberBetween(5,20)]];
         })->toArray();
 
-        factory(Store::class, 1000)->create()
+        factory(Store::class, 100)->create()
             ->each(function ($store) use ($vegetablesInStore, $deviceCategory, $faker, $deviceCategoryIdMax) {
                 $store->devices()->saveMany(factory(Device::class, 100)->make([
                     'category_id' => $deviceCategory[$faker->numberBetween(0, $deviceCategoryIdMax)]->id,
