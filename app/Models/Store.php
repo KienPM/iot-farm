@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\Filterable;
+use App\Models\Traits\Activeable;
 
 class Store extends Model
 {
-    use Filterable;
+    use Filterable, Activeable;
 
     const ITEMS_PER_PAGE = 10;
 
@@ -29,7 +30,7 @@ class Store extends Model
 
     public function activeDevices()
     {
-        return $this->devices()->where('devices.is_active', true);
+        return $this->devices()->active();
     }
 
     public function partner()

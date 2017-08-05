@@ -6,6 +6,8 @@ use App\Core\Responses\Store\ManageResponse;
 
 trait StoreManageTrait
 {
+    use BaseManageTrait;
+
     public function update(Store $store, Request $request)
     {
         $this->validateUpdateRequest($request, $store);
@@ -24,17 +26,4 @@ trait StoreManageTrait
     {
         return Store::updateOrCreate(['id' => $id], $storeData);
     }
-
-    // protected function basicResult($status, $data = null)
-    // {
-    //     $response = [
-    //         'status' => config('status.' . $status),
-    //         'message' => trans('response.create_' . $status, ['name' => trans('name.store')]),
-    //     ];
-    //     if ($data !== null) {
-    //         $response['data'] = $data;
-    //     }
-
-    //     return $this->response($response);
-    // }
 }

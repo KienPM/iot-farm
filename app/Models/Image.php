@@ -18,8 +18,8 @@ class Image extends Model
 
     protected $table = 'images';
 
-    public function roles()
+    public function vegetable()
     {
-        return $this->belongsToMany('App\Role');
+        return $this->belongsTo(Vegetable::class);
     }
 }

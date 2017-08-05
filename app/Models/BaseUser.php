@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\Traits\Activeable;
+use App\Models\Traits\Filterable;
 
 abstract class BaseUser extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, Filterable, Activeable;
 
     /**
      * The attributes that are mass assignable.
@@ -30,10 +32,5 @@ abstract class BaseUser extends Authenticatable
     public function isActive()
     {
         return $this->is_actived;
-    }
-
-    public function scopeActive($query)
-    {
-        return $query->where('is_actived', true);
     }
 }

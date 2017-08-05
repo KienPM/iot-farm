@@ -4,14 +4,16 @@ namespace App\Models;
 
 class Partner extends BaseUser
 {
+    const ITEMS_PER_PAGE = 10;
+
     protected $table = 'partners';
 
-    public function stores()
+    public function activeStores()
     {
-        return $this->hasMany(Store::class)->where('is_actived', true);
+        return $this->hasMany(Store::class)->active();
     }
 
-    public function allStores()
+    public function stores()
     {
         return $this->hasMany(Store::class);
     }

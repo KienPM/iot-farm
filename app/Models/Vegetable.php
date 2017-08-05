@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Traits\Activeable;
+use App\Models\Traits\Filterable;
 
 class Vegetable extends Model
 {
+    use Activeable, Filterable;
     /**
      * The attributes that are mass assignable.
      *

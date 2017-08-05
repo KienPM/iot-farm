@@ -7,12 +7,14 @@ use Illuminate\Auth\Authenticatable;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use App\Models\Traits\Activeable;
+use App\Models\Traits\Filterable;
 
 class Device extends Model implements
     AuthenticatableContract,
     AuthorizableContract
 {
-    use Authenticatable, Authorizable;
+    use Authenticatable, Authorizable, Activeable, Filterable;
 
     /**
      * The attributes that are mass assignable.
@@ -42,10 +44,5 @@ class Device extends Model implements
     public function isActive()
     {
         return $this->is_actived;
-    }
-
-    public function scopeActive($query)
-    {
-        return $query->where('is_actived', true);
     }
 }
