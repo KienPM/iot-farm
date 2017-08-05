@@ -15,7 +15,7 @@ class StoreController extends BaseController
     use StoreManageTrait;
 
     protected $guard = 'admin';
-    protected $updateFields = ['partner_id', 'address', 'info', 'is_actived'];
+    protected $updateFields = ['partner_id', 'address', 'info', 'latitude', 'longitude', 'is_actived'];
 
     public function devices(Store $store)
     {
@@ -39,7 +39,14 @@ class StoreController extends BaseController
         $this->validateCreateRequest($request);
 
         try {
-            $storeData = $request->only(['partner_id', 'address', 'info', 'is_actived']);
+            $storeData = $request->only([
+                'partner_id',
+                'address',
+                'info',
+                'latitude',
+                'longitude',
+                'is_actived',
+            ]);
             $store = $this->createOrUpdate($storeData);
 
             return ManageResponse::createStoreResponse('success', $store);

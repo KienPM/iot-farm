@@ -1,10 +1,11 @@
+
 <?php
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Vegetable extends Model
+class Image extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,13 +13,13 @@ class Vegetable extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'description', 'is_actived',
+        'title', 'src',
     ];
 
-    protected $table = 'vegetables';
+    protected $table = 'images';
 
-    public function images()
+    public function roles()
     {
-        return $this->belongsToMany(Image::class);
+        return $this->belongsToMany('App\Role');
     }
 }

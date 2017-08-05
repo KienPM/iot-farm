@@ -16,7 +16,7 @@ class StoreController extends BaseController implements StoreManageContract
     use StoreManageTrain;
 
     protected $guard = 'partner';
-    protected $updateFields = ['address', 'info'];
+    protected $updateFields = ['info'];
 
     protected function validateUpdateRequest($request, $store)
     {
@@ -25,7 +25,6 @@ class StoreController extends BaseController implements StoreManageContract
         }
 
         $updateRules = [
-            'address' => 'required:string',
             'info' => 'max:50000',
         ];
 
