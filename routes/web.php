@@ -31,6 +31,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
         Route::group(['prefix' => '{store}'], function () {
             Route::get('/', 'StoreController@show');
             Route::get('devices', 'StoreController@devices');
+            Route::post('delete', 'StoreController@delete');
         });
     });
 
@@ -50,6 +51,7 @@ Route::group(['namespace' => 'User'], function () {
         Route::any('/', 'SessionController@index');
         Route::post('login', 'SessionController@login');
         Route::post('logout', 'SessionController@logout');
+        Route::post('register', 'SessionController@register');
     });
 
     Route::group(['prefix' => 'stores'], function () {

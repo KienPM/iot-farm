@@ -18,4 +18,5 @@ return [
     'not_login' => 'User not logged in!',
     'not_actived' => 'User not actived!',
     'login_success' => 'Login success!',
+    'register_error' => 'Register error!',
 ];

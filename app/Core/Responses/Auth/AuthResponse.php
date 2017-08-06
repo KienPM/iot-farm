@@ -44,4 +44,13 @@ class AuthResponse extends Response
             $data
         );
     }
+
+    public function registerFailedResponse($data = null)
+    {
+        return static::responseWithToken(
+            config('status.error'),
+            trans('auth.register_error'),
+            $data
+        );
+    }
 }

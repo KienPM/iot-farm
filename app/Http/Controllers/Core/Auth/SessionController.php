@@ -64,7 +64,6 @@ abstract class SessionController extends Controller
         return $request->only($this->identify(), 'password');
     }
 
-
     protected function userWasAuthenticated($auth)
     {
         $guard = $this->getGuard();

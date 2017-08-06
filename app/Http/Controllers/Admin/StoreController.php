@@ -55,6 +55,18 @@ class StoreController extends BaseController
         }
     }
 
+    public function delete(Store $store)
+    {
+        try {
+            $store->delete();
+
+            return ManageResponse::deleteStoreResponse('success');
+        } catch (Exception $e) {
+            return ManageResponse::deleteStoreResponse('error');
+        }
+
+    }
+
     protected function validateUpdateRequest($request, $store)
     {
         return $this->validateCreateRequest($request);
