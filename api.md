@@ -150,6 +150,28 @@ Accept: application/json
 }
 ```
 
+### 4. Đăng kí thông thường (chỉ user)
+
+**Path:** /session/register
+
+**Method:** POST
+
+**Data:**
+
+```
+{
+    name: 'hoanghoi',
+    email: 'user.email@gmail.com',
+    password: '12344321',
+    password_confirmation: '12344321',
+}
+```
+
+**Response:**
+
+Dữ liệu trả về như là lúc đăng nhập thành công.
+
+
 ## Đăng nhập socket server
 
 - Để đăng nhập vào socket server thì lắng nghe sự kiện `connect` để emit sự kiện `authenticate` với data là `{token: 'auth_token_nhan_duoc'}`.
