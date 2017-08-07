@@ -88,6 +88,28 @@ Accept: application/json
 
 **Method:** POST
 
+**Data:**
+
+Đăng nhập bằng tài khoản thường
+{
+    email: 'hoanghoi1310@gmail.com',
+    password: '12344321'
+}
+
+Đăng nhập bằng social account
+{
+    name: 'hoanghoi', //bắt buộc phải có, có thể trùng tên đã có trong hệ thống.
+    email: 'hoanghoi1310@gmail.com', //Không nhất thiết phải có, nếu email trùng với email đã đăng kí tài khoản thì chỉ thêm social account chứ ko tạo user mới. Nếu Email chưa có trong hệ thống thì sẽ tạo user mới.
+    provider: '1', //bắt buộc phải có
+    provider_user_token: 'provider_token_provider_token_provider_token', //bắt buộc phải có
+}
+
+**Lưu ý:**
+
+- provider = 0 ==> facebook
+- provider = 0 ==> google
+- provider = khác ==> không đăng nhập đc
+
 **Response:**
 
 - Login success:
