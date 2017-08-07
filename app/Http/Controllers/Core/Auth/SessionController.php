@@ -71,7 +71,7 @@ abstract class SessionController extends Controller
         if ($user->isActive()) {
             $claims = $this->makeAuthClaims($user);
             $authToken = $auth->fromUser($user, $claims);
-            $result = $this->makeUserResult($user->load('socialUsers'), $authToken);
+            $result = $this->makeUserResult($user, $authToken);
 
             return AuthResponse::loginSuccessResponse($result);
         }
