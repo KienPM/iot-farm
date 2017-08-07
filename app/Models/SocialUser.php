@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class SocialUser extends Model
 {
+    const AVAILABLE_SOCIAL_PROVIDER = [
+        1 => 'facebook',
+        2 => 'google',
+    ];
+
     const FACEBOOK_ACCOUNT = 1;
     const GOOGLE_ACCOUNT = 2;
 
@@ -19,4 +24,9 @@ class SocialUser extends Model
     ];
 
     protected $table = 'social_users';
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
