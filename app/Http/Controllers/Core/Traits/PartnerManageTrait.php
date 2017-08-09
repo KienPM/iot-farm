@@ -22,10 +22,17 @@ trait PartnerManageTrait
 
     protected function validateUpdateRequest($request)
     {
-        $this->validateCreateRequest($request);
+        $updateRules = [
+            'name' => 'string',
+            'email' => 'email',
+            'phone_number' => 'numeric',
+            'is_actived' => 'boolean',
+        ];
+
+        return $this->validate($request, $updateRules);
     }
 
-    protected function createOrUpdate($storeData, $id = null)
+    protected function updateOrCreate($storeData, $id = null)
     {
         return Partner::updateOrCreate(['id' => $id], $storeData);
     }

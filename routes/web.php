@@ -37,7 +37,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
 
     Route::group(['prefix' => 'partners'], function () {
         Route::get('/', 'PartnerController@index');
-        // Route::post('/', 'PartnerController@create');
+        Route::post('/', 'PartnerController@create');
         Route::group(['prefix' => '{partner}'], function () {
             Route::get('/', 'PartnerController@show');
             // Route::get('devices', 'StoreController@devices');

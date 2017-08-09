@@ -38,11 +38,11 @@ class PartnerController extends Controller
 
         try {
             $partnerData = $request->only($partnerField);
-            $partner = $this->createOrUpdate($partnerData);
+            $partner = $this->updateOrCreate($partnerData);
 
-            return ManageResponse::createStoreResponse('success', $store);
+            return ManageResponse::createPartnerResponse('success', $store);
         } catch (Exception $e) {
-            return ManageResponse::createStoreResponse('error');
+            return ManageResponse::createPartnerResponse('error');
         }
     }
 
@@ -51,12 +51,12 @@ class PartnerController extends Controller
         $this->validateUpdateRequest($request);
 
         try {
-            $partnerData = $request->only($partnerField);
-            $partner = $this->createOrUpdate($partnerData, $partner->id);
+            $partnerData = $request->all();
+            $partner = $this->updateOrCreate($partnerData, $partner->id);
 
-            return ManageResponse::createStoreResponse('success', $store);
+            return ManageResponse::updatePartnerResponse('success', $partner);
         } catch (Exception $e) {
-            return ManageResponse::createStoreResponse('error');
+            return ManageResponse::updatePartnerResponse('error');
         }
     }
 }
