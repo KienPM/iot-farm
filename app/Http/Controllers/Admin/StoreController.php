@@ -50,7 +50,7 @@ class StoreController extends BaseController
             ]);
             $store = $this->createOrUpdate($storeData);
 
-            return ManageResponse::createStoreResponse('success', $store);
+            return ManageResponse::createStoreResponse('success', $store->toArray());
         } catch (Exception $e) {
             return ManageResponse::createStoreResponse('error');
         }
@@ -98,7 +98,7 @@ class StoreController extends BaseController
     protected function validateCreateRequest($request)
     {
         $createRules = [
-            'partner_id' => 'required|exists:companies,id',
+            'partner_id' => 'required|exists:partners,id',
             'address' => 'required:string',
             'info' => 'max:50000',
             'is_actived' => 'boolean',

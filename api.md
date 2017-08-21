@@ -223,39 +223,43 @@ socket.on('connect', function () {
 {
     "data": [
         {
-            "id": 3501,
-            "partner_id": 3502,
-            "address": "25861 Everette Inlet Suite 799",
-            "info": "534 Hoppe Locks",
+            "id": 17157,
+            "partner_id": 17186,
+            "address": "2581 Reynolds Ways Apt. 906",
+            "info": "97487 Schamberger Extensions Apt. 485",
+            "longitude": 105.18142,
+            "latitude": 21.356983,
             "is_actived": 1,
-            "created_at": "2017-07-29 17:02:09",
-            "updated_at": "2017-07-29 17:02:09",
+            "created_at": "2017-08-05 09:39:30",
+            "updated_at": "2017-08-05 09:39:30",
             "partner": {
-                "id": 3502,
-                "name": "Bryana Lang",
-                "email": "jerde.freda@example.net",
-                "phone_number": "1-877-684-1034",
+                "id": 17186,
+                "name": "Arlie Glover",
+                "email": "roosevelt96@bartoletti.org",
+                "phone_number": "(866) 977-5262",
                 "is_actived": 1,
-                "created_at": "2017-07-29 17:02:09",
-                "updated_at": "2017-07-29 17:02:09"
+                "created_at": "2017-08-05 09:39:30",
+                "updated_at": "2017-08-05 09:39:30"
             }
         },
         {
-            "id": 1799,
-            "partner_id": 1800,
-            "address": "8534 Elyse Trail",
-            "info": "82875 Haley Spring Suite 067",
+            "id": 17156,
+            "partner_id": 17185,
+            "address": "4467 Otto Meadows Apt. 735",
+            "info": "2876 Koelpin Estate Apt. 084",
+            "longitude": 105.769321,
+            "latitude": 21.082853,
             "is_actived": 1,
-            "created_at": "2017-07-29 17:00:52",
-            "updated_at": "2017-07-29 17:00:52",
+            "created_at": "2017-08-05 09:39:30",
+            "updated_at": "2017-08-05 09:39:30",
             "partner": {
-                "id": 1800,
-                "name": "Prof. Caroline Kuhic Jr.",
-                "email": "lward@example.com",
-                "phone_number": "800.887.8844",
+                "id": 17185,
+                "name": "Dr. Noemy Weimann",
+                "email": "wherman@cassin.com",
+                "phone_number": "(844) 403-5219",
                 "is_actived": 1,
-                "created_at": "2017-07-29 16:59:19",
-                "updated_at": "2017-07-29 16:59:19"
+                "created_at": "2017-08-05 09:39:30",
+                "updated_at": "2017-08-05 09:39:30"
             }
         }
     ],
@@ -288,7 +292,43 @@ Items Per page: Số items trong 1 page, mặc định là 10. Có thể set b�
 **Method:** GET
 
 **Response:**
-
+```
+{
+    "id": 7146,
+    "partner_id": 7175,
+    "address": "84671 Hintz Park Apt. 707",
+    "info": "1392 Stark Track Suite 637",
+    "longitude": 105.871304,
+    "latitude": 21.085919,
+    "is_actived": 1,
+    "created_at": "2017-08-05 08:31:03",
+    "updated_at": "2017-08-05 08:31:03",
+    "partner": {
+        "id": 7175,
+        "name": "Mr. Kiel Dickinson Sr.",
+        "email": "baumbach.rosalinda@krajcik.com",
+        "phone_number": "(800) 628-8855",
+        "is_actived": 1,
+        "created_at": "2017-08-05 08:31:01",
+        "updated_at": "2017-08-05 08:31:01"
+    },
+    "vegetables": [
+        {
+            "id": 1,
+            "name": "Khaki",
+            "description": "Alice as he spoke, and then hurried on, Alice started to her daughter 'Ah, my dear! Let this be a queer thing, to be listening, so she turned away. 'Come back!' the Caterpillar took the hookah out.",
+            "is_actived": 1,
+            "created_at": "2017-08-05 08:24:58",
+            "updated_at": "2017-08-05 08:24:58",
+            "pivot": {
+                "store_id": 7146,
+                "vegetable_id": 1,
+                "price": 15
+            }
+        }
+    ]
+}
+```
 #### 3. Danh sách các cảm biến có trong store
 
 **Mô tả** Xem chi tiết một store bao gồm các thông tin cảm biến có trong store, loại cảm biến.
@@ -298,7 +338,72 @@ Items Per page: Số items trong 1 page, mặc định là 10. Có thể set b�
 **Method:** GET
 
 **Response:**
+```
+{
+    "status": "success",
+    "data": {
+        "id": 7146,
+        "partner_id": 7175,
+        "address": "84671 Hintz Park Apt. 707",
+        "info": "1392 Stark Track Suite 637",
+        "longitude": 105.871304,
+        "latitude": 21.085919,
+        "is_actived": 1,
+        "created_at": "2017-08-05 08:31:03",
+        "updated_at": "2017-08-05 08:31:03",
+        "devices": [
+            {
+                "id": 15502,
+                "store_id": 7146,
+                "category_id": 2,
+                "name": "Daphne Haag",
+                "identify_code": "PCLBC5860837224",
+                "is_actived": 1,
+                "created_at": "2017-08-05 09:31:58",
+                "updated_at": "2017-08-05 09:31:58",
+                "category": {
+                    "id": 2,
+                    "name": "Cleve Jacobs",
+                    "symbol": "provident"
+                }
+            }
+        ]
+    }
+}
+```
 
+#### 4. Create store
+**Mô tả** Create một store
+
+**Path:** /stores
+
+**Method:** POST
+
+**Data:**
+```
+{
+    partner_id: 1234,
+    address: '',
+    info: '1392 Stark Track Suite 637',
+    latitude: 105.871304,
+    longitude: 21.085919,
+    is_actived: true,
+}
+```
+**Response:**
+
+#### 4. Update store
+**Mô tả** Update các thông tin cơ bản của store
+
+**Path:** /stores/<store id>
+
+**Method:** POST
+**Data:**
+{
+    
+}
+
+**Response:**
 
 ## Thông báo lỗi
 ### Link không tồn tại (not found)

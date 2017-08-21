@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Core\Traits;
 
 use App\Core\Responses\Store\ManageResponse;
+use App\Models\Store;
 
 trait StoreManageTrait
 {

@@ -26,7 +26,7 @@ class ManageResponse extends BaseResponse
         );
     }
 
-    public function deleteStoreResponse($status)
+    public static function deleteStoreResponse($status)
     {
         return self::basicResponse(
             'delete',
