@@ -30,6 +30,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
         Route::post('/', 'StoreController@create');
         Route::group(['prefix' => '{store}'], function () {
             Route::get('/', 'StoreController@show');
+            Route::post('/', 'StoreController@update');
             Route::get('devices', 'StoreController@devices');
             Route::post('delete', 'StoreController@delete');
         });
@@ -40,7 +41,6 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
         Route::post('/', 'PartnerController@create');
         Route::group(['prefix' => '{partner}'], function () {
             Route::get('/', 'PartnerController@show');
-            // Route::get('devices', 'StoreController@devices');
         });
     });
 
@@ -65,6 +65,15 @@ Route::group(['namespace' => 'Partner', 'prefix' => 'partner'], function () {
         Route::any('/', 'SessionController@index');
         Route::post('login', 'SessionController@login');
         Route::post('logout', 'SessionController@logout');
+    });
+
+    Route::group(['prefix' => 'stores'], function () {
+        Route::get('/', 'StoreController@index');
+        Route::group(['prefix' => '{store}'], function () {
+            Route::get('/', 'StoreController@show');
+            Route::post('/', 'StoreController@update');
+            Route::get('devices', 'StoreController@devices');
+        });
     });
 });
 

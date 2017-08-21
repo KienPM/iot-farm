@@ -30,4 +30,41 @@ class StoreController extends BaseController implements StoreManageContract
 
         return $this->validate($request, $updateRules);
     }
+
+    public function index(Request $request, StoreFilter $query)
+    {
+        $user = $request->user();
+        $itemPerPage = $request->get('items_per_page', Store::ITEMS_PER_PAGE);
+        return Store::filterBy($query)->where('partner_id', $user->id)->with('partner')->paginate($itemPerPage);
+    }
+
+    public function show(Request $request, Store $store)
+    {
+        if ($request->user()->id !== $store->partner_id) {
+            return ManageResponse::cantContinue();
+        }
+
+        return $store->load(['partner', 'vegetables']);
+    }
+
+    public function devices(Store $store)
+    {
+        if ($request->user()->id !== $store->partner_id) {
+            return ManageResponse::cantContinue();
+        }
+
+        return ManageResponse::response(
+            'success',
+            config('response.get_store_detail_success'),
+            ['data' => $store->load([
+                'devices' => function ($query) {
+                    $query->with([
+                        'category' => function ($q) {
+                            $q->select(['id', 'name', 'symbol']);
+                        }
+                    ]);
+                }
+            ])]
+        );
+    }
 }

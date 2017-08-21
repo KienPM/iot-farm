@@ -9,6 +9,7 @@ use App\Http\Controllers\Core\StoreController as BaseController;
 use App\Http\Controllers\Core\Traits\StoreManageTrait;
 use Exception;
 use App\Core\Responses\Store\ManageResponse;
+use DB;
 
 class StoreController extends BaseController
 {
@@ -58,13 +59,35 @@ class StoreController extends BaseController
     public function delete(Store $store)
     {
         try {
+            DB::beginTransaction();
+            $store->devices()->delete();
+            $store->vegetables()->detach();
             $store->delete();
 
+            DB::commit();
             return ManageResponse::deleteStoreResponse('success');
         } catch (Exception $e) {
+            DB::rollBack();
             return ManageResponse::deleteStoreResponse('error');
         }
 
+    }
+
+    public function changeStatus(Store $store, Request $request)
+    {
+        $status = $request->get('status', false);
+        try {
+            DB::beginTransaction();
+            $store->devices()->update(['is_actived' => $status]);
+            // $store->vegetables()->detach();
+            $store->update(['is_actived' => $status]);
+
+            DB::commit();
+            return ManageResponse::updateStoreResponse('success');
+        } catch (Exception $e) {
+            DB::rollBack();
+            return ManageResponse::updateStoreResponse('error');
+        }
     }
 
     protected function validateUpdateRequest($request, $store)
