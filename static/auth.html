@@ -15,7 +15,7 @@
         connectionUpdate('Requesting JWT Token from Laravel');
 
         $.ajax({
-            url: 'http://iot-farm.vn/partner/session',
+            url: 'http://farm.ongnhuahdpe.com/device/session',
             xhrFields: {
                 withCredentials: true
             }
@@ -31,7 +31,7 @@
 
             connectionUpdate('Got token: ' + result.auth_token + ', connect to SocketIO');
 
-            var socket = io.connect('http://iot-farm.vn:3000');
+            var socket = io.connect('http://farm.ongnhuahdpe.com:3000');
             socket.on('connect', function () {
                 connectionUpdate('Connected to SocketIO, Authenticating')
                 socket.emit('authenticate', {token: result.auth_token});
