@@ -79,7 +79,6 @@ class StoreController extends BaseController
         try {
             DB::beginTransaction();
             $store->devices()->update(['is_actived' => $status]);
-            // $store->vegetables()->detach();
             $store->update(['is_actived' => $status]);
 
             DB::commit();

@@ -1,5 +1,5 @@
 ## Base link
-- Server domain: http://li1626-27.members.linode.com/
+- Server domain: http://farm.ongnhuahdpe.com/
 
 - User: link sẽ là link mặc định
 - admin: sẽ thêm /admin
@@ -7,10 +7,10 @@
 - Thiết bị, Cảm biến: sẽ thêm /device
 
 **Ví dụ:** Domain của server là iot-farm.vn thì trang xem trạng thái đăng nhập sẽ là
-- admin: http://iot-farm.vn/admin/session
-- user: http://iot-farm.vn/session
-- partner: http://iot-farm.vn/partner/session
-- device: http://iot-farm.vn/device/session
+- admin: http://farm.ongnhuahdpe.com/admin/session
+- user: http://farm.ongnhuahdpe.com/session
+- partner: http://farm.ongnhuahdpe.com/partner/session
+- device: http://farm.ongnhuahdpe.com/device/session
 
 ## Chú ý
 ### Các POST request phải có token trên header
@@ -266,8 +266,8 @@ socket.on('connect', function () {
     "current_page": 1, //page hiện tại
     "from": 1, //Item bắt đầu
     "last_page": 2, //page cuối = max page
-    "next_page_url": "http://iot-farm.vn/admin/stores?page=2",
-    "path": "http://iot-farm.vn/admin/stores",
+    "next_page_url": "http://farm.ongnhuahdpe.com/admin/stores?page=2",
+    "path": "http://farm.ongnhuahdpe.com/admin/stores",
     "per_page": 10, //số items max trong 1 page
     "prev_page_url": null,
     "to": 10, //Item kết thúc
@@ -383,7 +383,7 @@ Items Per page: Số items trong 1 page, mặc định là 10. Có thể set b�
 ```
 {
     partner_id: 1234,
-    address: '',
+    address: '84671 Hintz Park Apt. 707',
     info: '1392 Stark Track Suite 637',
     latitude: 105.871304,
     longitude: 21.085919,
@@ -393,17 +393,48 @@ Items Per page: Số items trong 1 page, mặc định là 10. Có thể set b�
 **Response:**
 
 #### 4. Update store
-**Mô tả** Update các thông tin cơ bản của store
+**Mô tả** Admin Update các thông tin cơ bản của store
 
 **Path:** /stores/<store id>
 
 **Method:** POST
 **Data:**
+```
 {
-    
+    partner_id: 1234,
+    address: '84671 Hintz Park Apt. 707',
+    info: '1392 Stark Track Suite 637',
+    latitude: 105.871304,
+    longitude: 21.085919,
+    is_actived: true,
 }
-
+```
 **Response:**
+```
+{
+    "status": "success",
+    "message": "Update store successful!",
+    "id": 7146,
+    "partner_id": "7175",
+    "address": "84671 Hintz Park Apt. 707",
+    "info": "1392 Stark Track Suite 637",
+    "longitude": "21.085919",
+    "latitude": "105.871304",
+    "is_actived": "1",
+    "created_at": "2017-08-07 15:27:21",
+    "updated_at": "2017-08-23 02:47:28",
+    "partner": {
+        "id": 7175,
+        "name": "Prof. Gene Vandervort Sr.",
+        "email": "nestor66@hotmail.com",
+        "phone_number": "800-261-1139",
+        "is_actived": 1,
+        "created_at": "2017-08-07 15:27:25",
+        "updated_at": "2017-08-07 15:27:25"
+    }
+}
+```
+#### 5. Delete store
 
 ## Thông báo lỗi
 ### Link không tồn tại (not found)
@@ -417,9 +448,9 @@ Items Per page: Số items trong 1 page, mặc định là 10. Có thể set b�
 ## Quá trình gửi request
 ### Đăng nhập
 
-- Gửi request get xem thông tin đăng nhập
+- Gửi request get xem thông tin đăng nhập: GET /session
 - Nhận được `token`
-- Sử dụng token này để gửi request post đăng nhập.
+- Sử dụng token này để gửi request post đăng nhập. POST /session/login
 
 *Chú ý:* POST request phải có một trường `_token` = token bên trên. Hoặc phải được set header:  `X-CSRF-TOKEN` = 'token'. Hoặc đưa token này lên url: http://farm.vn/?_token=token. Xem https://laravel.com/docs/5.4/csrf#csrf-x-csrf-token để biết thêm chi tiết.
 

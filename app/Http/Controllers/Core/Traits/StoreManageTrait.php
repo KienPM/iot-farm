@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Core\Traits;
 
 use App\Core\Responses\Store\ManageResponse;
+use Illuminate\Http\Request;
 use App\Models\Store;
 
 trait StoreManageTrait
@@ -17,7 +18,7 @@ trait StoreManageTrait
             $storeData = $request->only($this->updateFields);
             $store->update($storeData);
 
-            return ManageResponse::updateStoreResponse('success', $store->load(['partner']));
+            return ManageResponse::updateStoreResponse('success', $store->load(['partner'])->toArray());
         } catch (Exception $e) {
             return ManageResponse::updateStoreResponse('error');
         }
