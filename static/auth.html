@@ -29,12 +29,12 @@
                 return false;
             }
 
-            connectionUpdate('Got token: ' + result.auth_token + ', connect to SocketIO');
+            connectionUpdate('Got token: ' + result.data.auth_token + ', connect to SocketIO');
 
             var socket = io.connect('http://farm.ongnhuahdpe.com:3000');
             socket.on('connect', function () {
                 connectionUpdate('Connected to SocketIO, Authenticating')
-                socket.emit('authenticate', {token: result.auth_token});
+                socket.emit('authenticate', {token: result.data.auth_token});
             });
 
             socket.on('authenticated', function () {
