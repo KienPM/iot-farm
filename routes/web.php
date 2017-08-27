@@ -58,6 +58,12 @@ Route::group(['namespace' => 'User'], function () {
         Route::get('/', 'StoreController@index');
         Route::get('{store}', 'StoreController@show');
     });
+
+    Route::group(['prefix' => 'cart/items'], function () {
+        Route::get('/', 'CartController@index');
+        Route::post('/', 'CartController@addItem');
+        Route::post('{item}', 'CartController@updateItem');
+    });
 });
 
 Route::group(['namespace' => 'Partner', 'prefix' => 'partner'], function () {

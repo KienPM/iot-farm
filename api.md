@@ -106,8 +106,8 @@ Accept: application/json
 
 **Lưu ý:**
 
-- provider = 0 ==> facebook
-- provider = 0 ==> google
+- provider = 1 ==> facebook
+- provider = 2 ==> google
 - provider = khác ==> không đăng nhập đc
 
 **Response:**

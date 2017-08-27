@@ -7,10 +7,15 @@ return [
 
     'create_success' => 'Create :name successful!',
     'create_error' => 'Create :name fail!',
+
     'update_success' => 'Update :name successful!',
     'update_error' => 'Update :name fail!',
+
     'delete_success' => 'Delete :name successful!',
     'delete_error' => 'Delete :name fail!',
+
+    'add_success' => 'Add :item to :cart successful!',
+    'add_error' => 'Add :item to :cart fail!',
 
     'unauthenticated' => 'Unauthenticated!',
     'method_not_allowed' => 'Method not allowed!',

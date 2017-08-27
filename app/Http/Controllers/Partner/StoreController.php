@@ -8,12 +8,14 @@ use App\Http\Controllers\Core\StoreController as BaseController;
 use App\Models\Store;
 use Exception;
 use App\Http\Controllers\Core\Contracts\StoreManageContract;
-use App\Http\Controllers\Core\Train\StoreManageTrain;
+use App\Http\Controllers\Core\Traits\StoreManageTrait;
+use App\Core\QueryFilter\StoreFilter;
 use App\Core\Responses\ManageResponse;
+use Auth;
 
 class StoreController extends BaseController implements StoreManageContract
 {
-    use StoreManageTrain;
+    use StoreManageTrait;
 
     protected $guard = 'partner';
     protected $updateFields = ['info'];
@@ -38,9 +40,10 @@ class StoreController extends BaseController implements StoreManageContract
         return Store::filterBy($query)->where('partner_id', $user->id)->with('partner')->paginate($itemPerPage);
     }
 
-    public function show(Request $request, Store $store)
+    public function show(Store $store)
     {
-        if ($request->user()->id !== $store->partner_id) {
+        $user = Auth::guard($this->getGuard())->user();
+        if ($user->id !== $store->partner_id) {
             return ManageResponse::cantContinue();
         }
 
