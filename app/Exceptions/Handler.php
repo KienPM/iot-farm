@@ -52,9 +52,9 @@ class Handler extends ExceptionHandler
             return Response::notFoundHttpException();
         }
 
-        if ($exception instanceof TokenMismatchException) {
-            return Response::tokenMismatchException();
-        }
+        // if ($exception instanceof TokenMismatchException) {
+        //     return Response::tokenMismatchException();
+        // }
 
         if ($exception instanceof MethodNotAllowedHttpException) {
             return Response::methodNotAllowedHttpException();
