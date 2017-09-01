@@ -24,12 +24,13 @@ class CartController extends Controller
     {
         $itemPerPage = $request->get('items_per_page', CartItem::ITEMS_PER_PAGE);
         $user = $request->user();
-        $data = $user->cartItems()->with('vegetableInStore.vegetable')->paginate($itemPerPage)->toArray();
+        $data = $this->getCartItemsWithRelation($user, $itemPerPage);
         return CartResponse::showCartResponse('success', $data);
     }
 
     public function addItem(AddItemRequest $request)
     {
+        $itemPerPage = $request->get('items_per_page', CartItem::ITEMS_PER_PAGE);
         try {
             $vegetableInStoreId = $request->get('vegetable_in_store_id');
             $quantity = $request->get('quantity');
@@ -48,14 +49,17 @@ class CartController extends Controller
                 ]);
             }
 
-            return CartResponse::addItemResponse('success', $user->cartItems()->get()->toArray());
+            $data = $this->getCartItemsWithRelation($user, $itemPerPage);
+            return CartResponse::addItemResponse('success', $data);
         } catch (Exception $e) {
-            return CartResponse::addItemResponse('error', $user->cartItems()->get()->toArray());
+            $data = $this->getCartItemsWithRelation($user, $itemPerPage);
+            return CartResponse::addItemResponse('error', $data);
         }
     }
 
     public function updateItem(CartItem $item, UpdateItemRequest $request)
     {
+        $itemPerPage = $request->get('items_per_page', CartItem::ITEMS_PER_PAGE);
         try {
             if ($request->user()->id != $item->user_id) {
                 return CartResponse::cantContinue();
@@ -74,14 +78,17 @@ class CartController extends Controller
 
             $item->update($updateData);
 
-            return CartResponse::updateItemResponse('success', $user->cartItems()->get()->toArray());
+            $data = $this->getCartItemsWithRelation($user, $itemPerPage);
+            return CartResponse::updateItemResponse('success', $data);
         } catch (Exception $e) {
-            return CartResponse::updateItemResponse('error', $user->cartItems()->get()->toArray(), $e->getMessage());
+            $data = $this->getCartItemsWithRelation($user, $itemPerPage);
+            return CartResponse::updateItemResponse('error', $data, $e->getMessage());
         }
     }
 
     public function deleteItems(DeleteItemRequest $request)
     {
+        $itemPerPage = $request->get('items_per_page', CartItem::ITEMS_PER_PAGE);
         try {
             $itemsIsDelete = $request->get('items');
             $user = $request->user();
@@ -89,9 +96,16 @@ class CartController extends Controller
                 ->whereIn('vegetable_in_store_id', $itemsIsDelete)
                 ->delete();
 
-            return CartResponse::deleteItemsResponse('success', $user->cartItems()->get()->toArray());
+            $data = $this->getCartItemsWithRelation($user, $itemPerPage);
+            return CartResponse::deleteItemsResponse('success', $data);
         } catch (Exception $e) {
-            return CartResponse::deleteItemsResponse('error', $user->cartItems()->get()->toArray(), $e->getMessage());
+            $data = $this->getCartItemsWithRelation($user, $itemPerPage);
+            return CartResponse::deleteItemsResponse('error', $data, $e->getMessage());
         }
+    }
+
+    protected function getCartItemsWithRelation($user, $itemPerPage = CartItem::ITEMS_PER_PAGE)
+    {
+        return $user->cartItems()->with('vegetableInStore.vegetable.images')->paginate($itemPerPage)->toArray();
     }
 }

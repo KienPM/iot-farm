@@ -46,8 +46,8 @@ class User extends BaseUser
         return $this->hasMany(CartItem::class);
     }
 
-    public function vegetables()
+    public function checkedItems()
     {
-        // return $this->hasMany(CartItem::class);
+        return $this->hasMany(CartItem::class)->where('checked', true);
     }
 }

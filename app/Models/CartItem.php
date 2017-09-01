@@ -33,13 +33,13 @@ class CartItem extends Model
      * @var array
      */
     protected $fillable = [
-        'user', 'vegetable_in_store_id', 'checked', 'quantity'
+        'user_id', 'vegetable_in_store_id', 'checked', 'quantity'
     ];
 
     protected $table = 'cart_item';
 
     public function vegetableInStore()
     {
-        return $this->hasOne(VegetableInStore::class);
+        return $this->belongsTo(VegetableInStore::class);
     }
 }
