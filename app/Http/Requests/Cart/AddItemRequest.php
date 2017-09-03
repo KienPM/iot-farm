@@ -24,7 +24,8 @@ class AddItemRequest extends FormRequest
     public function rules()
     {
         return [
-            'vegetable_in_store_id' => 'required|integer|exists:vegetable_in_store,id',
+            'vegetable_id' => 'required|integer',
+            'store_id' => 'required|integer',
             'quantity' => 'required|integer',
         ];
     }

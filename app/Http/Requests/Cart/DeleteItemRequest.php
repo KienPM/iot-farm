@@ -24,7 +24,7 @@ class DeleteItemRequest extends FormRequest
     public function rules()
     {
         return [
-            'items' => 'required|array',
+            'items' => 'array',
             'items.*' => 'integer',
         ];
     }

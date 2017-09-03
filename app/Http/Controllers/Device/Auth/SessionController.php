@@ -17,7 +17,7 @@ class SessionController extends BaseSessionController
     {
         return [
             'id' => $device->id,
-            'name' => $device->name,
+            // 'name' => $device->name,
             $this->identify() => $device->{$this->identify()},
             'guard' => $this->getGuard(),
             'store_id' => $device->store_id,

@@ -436,6 +436,79 @@ Items Per page: Số items trong 1 page, mặc định là 10. Có thể set b�
 ```
 #### 5. Delete store
 
+**Mô tả** Admin xóa store, các device và liên kết liên quan
+
+**Path:** /stores/<store id>/delete
+
+**Method:** POST
+**Data:**
+
+
+## 6 User Order
+### List cart items
+
+**Mô tả:** User list all item to cart
+
+**Path:** /cart/items
+
+**Method:** GET
+
+**Data:**
+
+### Add items to cart
+
+**Mô tả:** User add one item to cart
+
+**Path:** /cart/items
+
+**Method:** POST
+
+**Data:**
+```
+{
+    vegetable_id: 6,
+    quantity: 3,
+    store_id: 101
+}
+```
+
+**Response:** Giống list items. `status = success` là add thành công. `status = error` là add ko thành công
+
+
+### Update items in cart
+
+**Mô tả:** Người dùng update quantity và checked cho một item trong cart. Có thể gửi request chỉ chứa 1 trong 2 trường quantity và checked. Checked là là đánh dấu, sản phẩm nào trong cart được thanh toán (checkout). Mặc định khi add thêm mới thì sản phẩm sẽ được checked.
+
+**Path:** /cart/items/{itemID}
+
+**Method:** POST
+
+**Data:**
+```
+{
+    quantity: 3,
+    checked: 101
+}
+```
+
+**Response:** Giống list items. `status = success` là update thành công. `status = error` là update ko thành công
+
+### Delete cart items
+
+**Mô tả:** User xóa 1 hoặc nhiều item ra khỏi cart
+
+**Path:** /cart/items/delete
+
+**Method:** POST
+
+**Data:** Truyền vào một mảng items bao gồm các id cần xóa
+```
+{
+    items: [1, 2, 3]
+}
+```
+**Response:** Giống list items. `status = success` là xóa thành công. `status = error` là xóa ko thành công
+
 ## Thông báo lỗi
 ### Link không tồn tại (not found)
 ```

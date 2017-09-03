@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Core\Responses\Cart\CartResponse;
 use App\Models\CartItem;
+use App\Models\VegetableInStore;
 use App\Http\Requests\Cart\AddItemRequest;
 use App\Http\Requests\Cart\UpdateItemRequest;
 use App\Http\Requests\Cart\DeleteItemRequest;
@@ -31,21 +32,30 @@ class CartController extends Controller
     public function addItem(AddItemRequest $request)
     {
         $itemPerPage = $request->get('items_per_page', CartItem::ITEMS_PER_PAGE);
+        $user = $request->user();
         try {
-            $vegetableInStoreId = $request->get('vegetable_in_store_id');
+            $vegetableId = $request->get('vegetable_id');
+            $storeId = $request->get('store_id');
+            $vegetableInStore = VegetableInStore::where('vegetable_id', $vegetableId)
+                ->where('store_id', $storeId)
+                ->first();
+
+            if (!$vegetableInStore) {
+                throw new Exception(trans('message.not_found', ['name' => studly_case(trans('name.vegetable'))]));
+            }
+
             $quantity = $request->get('quantity');
-            $user = $request->user();
-            $cartItems = $user->cartItems()
-                ->where('vegetable_in_store_id', $vegetableInStoreId)
-                ->get();
-            if ($cartItems->isEmpty()) {
-                $user->cartItems()->create([
-                    'vegetable_in_store_id' => $vegetableInStoreId,
-                    'quantity' => $quantity ? $quantity : 1,
+            $cartItem = $user->cartItems()
+                ->where('vegetable_in_store_id', $vegetableInStore->id)
+                ->first();
+            if ($cartItem) {
+                $cartItem->update([
+                    'quantity' => $cartItem->quantity + $quantity,
                 ]);
             } else {
-                $cartItems[0]->update([
-                    'quantity' => $cartItems[0]->quantity + $quantity,
+                $user->cartItems()->create([
+                    'vegetable_in_store_id' => $vegetableInStore->id,
+                    'quantity' => $quantity ? $quantity : 1,
                 ]);
             }
 
@@ -53,15 +63,16 @@ class CartController extends Controller
             return CartResponse::addItemResponse('success', $data);
         } catch (Exception $e) {
             $data = $this->getCartItemsWithRelation($user, $itemPerPage);
-            return CartResponse::addItemResponse('error', $data);
+            return CartResponse::addItemResponse('error', $data, $e->getMessage());
         }
     }
 
     public function updateItem(CartItem $item, UpdateItemRequest $request)
     {
         $itemPerPage = $request->get('items_per_page', CartItem::ITEMS_PER_PAGE);
+        $user = $request->user();
         try {
-            if ($request->user()->id != $item->user_id) {
+            if ($user->id != $item->user_id) {
                 return CartResponse::cantContinue();
             }
 
@@ -89,11 +100,14 @@ class CartController extends Controller
     public function deleteItems(DeleteItemRequest $request)
     {
         $itemPerPage = $request->get('items_per_page', CartItem::ITEMS_PER_PAGE);
+        $user = $request->user();
         try {
             $itemsIsDelete = $request->get('items');
-            $user = $request->user();
+            if (!$itemsIsDelete) {
+                throw new Exception(trans('message.not_found', ['name' => studly_case(trans('name.item'))]));
+            }
             $user->cartItems()
-                ->whereIn('vegetable_in_store_id', $itemsIsDelete)
+                ->whereIn('id', $itemsIsDelete)
                 ->delete();
 
             $data = $this->getCartItemsWithRelation($user, $itemPerPage);

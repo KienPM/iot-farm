@@ -5,4 +5,5 @@ return [
     'partner' => 'partner',
     'item' => 'item',
     'cart' => 'cart',
+    'vegetable' => 'vegetable',
 ];
