@@ -62,6 +62,7 @@ Route::group(['namespace' => 'User'], function () {
     Route::group(['prefix' => 'cart/items'], function () {
         Route::get('/', 'CartController@index');
         Route::post('/', 'CartController@addItem');
+        Route::post('delete', 'CartController@deleteItems');
         Route::post('{item}', 'CartController@updateItem');
     });
 });

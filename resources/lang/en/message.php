@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'item_not_found' => 'Item not found!',
+    'not_found' => ':name not found!',
 ];

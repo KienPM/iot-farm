@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use App\Core\Responses\Response;
@@ -55,6 +56,10 @@ class Handler extends ExceptionHandler
         // if ($exception instanceof TokenMismatchException) {
         //     return Response::tokenMismatchException();
         // }
+
+        if ($exception instanceof ModelNotFoundException) {
+            return Response::notFoundHttpException();
+        }
 
         if ($exception instanceof MethodNotAllowedHttpException) {
             return Response::methodNotAllowedHttpException();

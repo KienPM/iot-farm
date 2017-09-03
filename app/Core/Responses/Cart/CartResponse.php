@@ -43,7 +43,7 @@ class CartResponse extends Response
 
     public static function deleteItemsResponse($status, $data = null, $message = '')
     {
-        if ($message) {
+        if (!$message) {
             $message = trans('response.delete_' . $status, ['name' => trans('name.item')]);
         }
 
