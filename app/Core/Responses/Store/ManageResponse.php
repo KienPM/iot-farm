@@ -6,6 +6,26 @@ use App\Core\Responses\ManageResponse as BaseResponse;
 
 class ManageResponse extends BaseResponse
 {
+    public static function listStoreResponse($status, $data = null)
+    {
+        return self::basicResponse(
+            'list',
+            'store',
+            $status,
+            $data
+        );
+    }
+
+    public static function showStoreResponse($status, $data = null)
+    {
+        return self::basicResponse(
+            'show',
+            'store',
+            $status,
+            $data
+        );
+    }
+
     public static function createStoreResponse($status, $data = null)
     {
         return self::basicResponse(

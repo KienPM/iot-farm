@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Store;
 use App\Core\QueryFilter\StoreFilter;
+use App\Core\Responses\Store\ManageResponse;
+use Exception;
 
 abstract class StoreController extends Controller
 {
@@ -16,12 +18,24 @@ abstract class StoreController extends Controller
 
     public function index(Request $request, StoreFilter $query)
     {
-        $itemPerPage = $request->get('items_per_page', Store::ITEMS_PER_PAGE);
-        return Store::filterBy($query)->with('partner')->paginate($itemPerPage);
+        try {
+            $itemPerPage = $request->get('items_per_page', Store::ITEMS_PER_PAGE);
+            $stores = Store::filterBy($query)->with('partner')->paginate($itemPerPage)->toArray();
+
+            return ManageResponse::listStoreResponse('success', $stores);
+        } catch (Exception $e) {
+            return ManageResponse::listStoreResponse('error');
+        }
     }
 
     public function show(Store $store)
     {
-        return $store->load(['partner', 'vegetables']);
+        try {
+            $store = $store->load(['partner', 'vegetables'])->toArray();
+
+            return ManageResponse::showStoreResponse('success', $store);
+        } catch (Exception $e) {
+            return ManageResponse::showStoreResponse('error');
+        }
     }
 }
