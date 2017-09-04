@@ -5,6 +5,12 @@ return [
     'token_mismatch' => 'Token mismatch!',
     'can_not_continue_request' => 'Can not continue executing request!',
 
+    'list_success' => 'List :name successful!',
+    'list_error' => 'List :name fail!',
+
+    'show_success' => 'Show :name successful!',
+    'show_error' => 'Show :name fail!',
+
     'create_success' => 'Create :name successful!',
     'create_error' => 'Create :name fail!',
 

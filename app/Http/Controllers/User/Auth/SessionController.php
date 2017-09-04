@@ -139,7 +139,7 @@ class SessionController extends BaseSessionController
         return [
             'id' => $user->id,
             'name' => $user->name,
-            // $this->identify() => $user->{$this->identify()},
+            $this->identify() => $user->{$this->identify()},
             'guard' => $this->getGuard(),
         ];
     }

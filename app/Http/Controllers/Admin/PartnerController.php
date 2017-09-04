@@ -23,13 +23,25 @@ class PartnerController extends Controller
 
     public function index(Request $request, PartnerFilter $query)
     {
-        $itemPerPage = $request->get('items_per_page', Partner::ITEMS_PER_PAGE);
-        return Partner::filterBy($query)->with('stores')->paginate($itemPerPage);
+        try {
+            $itemPerPage = $request->get('items_per_page', Partner::ITEMS_PER_PAGE);
+            $partners = Partner::filterBy($query)->with('stores')->paginate($itemPerPage)->toArray();
+
+            return ManageResponse::listPartnerResponse('success', $partners);
+        } catch (Exception $e) {
+            return ManageResponse::listPartnerResponse('error');
+        }
     }
 
     public function show(Partner $partner)
     {
-        return $partner->load(['stores']);
+        try {
+            $partner = $partner->load(['stores'])->toArray();
+
+            return ManageResponse::listPartnerResponse('success', $partner);
+        } catch (Exception $e) {
+            return ManageResponse::showPartnerResponse('error');
+        }
     }
 
     public function create(Request $request)
