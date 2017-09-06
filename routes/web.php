@@ -59,11 +59,24 @@ Route::group(['namespace' => 'User'], function () {
         Route::get('{store}', 'StoreController@show');
     });
 
-    Route::group(['prefix' => 'cart/items'], function () {
+    Route::group(['prefix' => 'orders'], function () {
+        Route::get('/', 'OrderController@index');
+        Route::get('{order}', 'OrderController@show');
+    });
+
+    Route::group(['prefix' => 'cart'], function () {
         Route::get('/', 'CartController@index');
-        Route::post('/', 'CartController@addItem');
-        Route::post('delete', 'CartController@deleteItems');
-        Route::post('{item}', 'CartController@updateItem');
+        Route::group(['prefix' => 'checkout'], function () {
+            Route::get('/', 'CartController@checkout');
+            Route::get('return/{order}', 'CartController@checkoutReturn');
+            Route::get('cancel/{order}', 'CartController@checkoutCancel');
+        });
+        Route::group(['prefix' => 'items'], function () {
+            Route::get('/', 'CartController@index');
+            Route::post('/', 'CartController@addItem');
+            Route::post('delete', 'CartController@deleteItems');
+            Route::post('{item}', 'CartController@updateItem');
+        });
     });
 });
 

@@ -5,6 +5,10 @@ return [
     'token_mismatch' => 'Token mismatch!',
     'can_not_continue_request' => 'Can not continue executing request!',
 
+    'checkout_success' => 'Checkout order :orderId successful!',
+    'checkout_cancel' => 'Checkout process canceled!',
+    'checkout_error' => 'Checkout fail!',
+
     'list_success' => 'List :name successful!',
     'list_error' => 'List :name fail!',
 

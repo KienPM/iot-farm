@@ -174,10 +174,12 @@ $factory->define(User::class, function (Faker\Generator $faker) {
 $factory->define(Vegetable::class, function (Faker\Generator $faker) {
     $faker->addProvider(new Faker\Provider\Color($faker));
     $faker->addProvider(new Faker\Provider\en_US\Text($faker));
+    $faker->addProvider(new Faker\Provider\Base($faker));
 
     return [
         'name' => $faker->colorName,
         'description' => $faker->realText(),
+        'price' => $faker->randomNumber(),
         'is_actived' => true,
     ];
 });
