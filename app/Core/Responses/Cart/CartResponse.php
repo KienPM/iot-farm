@@ -54,4 +54,13 @@ class CartResponse extends Response
         );
     }
 
+    public static function checkOutResponse($status, $message = '', $data = null)
+    {
+        if (!$message) {
+            $message = trans('response.checkout_' . $status);
+        }
+
+        return self::response(config('status.' . $status), $message, $data);
+    }
+
 }

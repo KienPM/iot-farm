@@ -33,4 +33,9 @@ class OrderItem extends Model
     ];
 
     protected $table = 'order_items';
+
+    public function vegetablesInStore()
+    {
+        return $this->belongsTo(VegetableInStore::class, 'vegetable_in_store_id');
+    }
 }

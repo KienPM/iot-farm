@@ -41,6 +41,11 @@ class User extends BaseUser
         return $this->hasMany(SocialUser::class);
     }
 
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
     public function cartItems()
     {
         return $this->hasMany(CartItem::class);

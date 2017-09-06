@@ -4,6 +4,17 @@ namespace App\Core\Responses;
 
 class Response
 {
+
+    public static function basicResponse($action, $name, $status, $data = null, $code = 200)
+    {
+        return static::response(
+            config('status.' . $status),
+            trans('response.' . $action .'_' . $status, ['name' => trans('name.' . $name)]),
+            $data,
+            $code
+        );
+    }
+
     public static function response($status, $message = '', $data = null, $code = 200)
     {
         $result = ['status' => $status];

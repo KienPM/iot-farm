@@ -23,14 +23,4 @@ class ManageResponse extends Response
             $data
         );
     }
-
-    public static function basicResponse($action, $name, $status, $data = null, $code = 200)
-    {
-        return static::response(
-            config('status.' . $status),
-            trans('response.' . $action .'_' . $status, ['name' => trans('name.' . $name)]),
-            $data,
-            $code
-        );
-    }
 }

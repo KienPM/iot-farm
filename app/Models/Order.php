@@ -31,14 +31,20 @@ class Order extends Model
     const PAYMENT_CONFIRMED = 2;
     const ORDER_PROCESSING = 3;
     const ORDER_COMPLETED = 4;
+    const ITEMS_PER_PAGE = 10;
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'user_id', 'bank_account_id', 'store_id', 'total_price', 'status',
+        'code', 'user_id', 'bank_account_id', 'store_id', 'total_price', 'status',
     ];
 
     protected $table = 'orders';
+
+    public function items()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
 }

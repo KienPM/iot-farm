@@ -34,5 +34,11 @@ return [
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],
-
+    'nganluong' => [
+        'url' => env('NGAN_LUONG_URL', 'https://www.nganluong.vn/checkout.php'),
+        'receiver' => env('RECEIVER', 'hoanghoi1310@gmail.com'), // Email tài khoản Ngân Lượng
+        'merchant_id' => env('MERCHANT_ID', '12344321'), // Mã kết nối
+        'merchant_pass' => env('MERCHANT_PASS', '12345678'),  // Mật khẩu kết nối
+        'affiliate_code' => env('AFFILIATE_CODE', ''), ////Mã đối tác tham gia chương trình liên kết của NgânLượng.vn
+    ]
 ];
