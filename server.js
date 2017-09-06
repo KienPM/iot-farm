@@ -3,12 +3,24 @@ var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var socketioJwt = require('socketio-jwt');
-require('dotenv').config({path: '.env'});
+require('dotenv').config({ path: '.env' });
+
 // Let express show auth.html to client
 app.use(express.static(__dirname + '/static'));
 app.get('/', function (req, res, next) {
     res.sendFile(__dirname + '/static/auth.html');
 });
+app.get('/partner', function (req, res, next) {
+    res.sendFile(__dirname + '/static/partner.html');
+});
+app.get('/device', function (req, res, next) {
+    res.sendFile(__dirname + '/static/device.html');
+});
+
+var partners = [];
+
+var devices = [];
+
 // Accept connection and authorize token
 io.on('connection', socketioJwt.authorize({
     secret: process.env.JWT_SECRET,
@@ -16,9 +28,64 @@ io.on('connection', socketioJwt.authorize({
 }));
 // When authenticated, send back name + email over socket
 io.on('authenticated', function (socket) {
-    console.log(socket.decoded_token);
-    socket.emit('name', socket.decoded_token.name);
-    socket.emit('email', socket.decoded_token.email);
+     console.log(socket.decoded_token);
+    getRole(socket);
+    socket.emit('info', socket.decoded_token);
 });
+
+function getRole(socket) {
+    switch (socket.decoded_token.guard.toLowerCase()) {
+        case "partner": return new partner(socket);
+        case "device": return new device(socket);
+        case "user": return new user(socket);
+    }
+}
+
+// Handling each role
+function partner(socket) {
+    this._socket = socket;
+
+    this._socket.join("partner_room_" + socket.decoded_token.id);
+
+    io.to("partner_room_" + socket.decoded_token.id)
+        .emit("device_list", getAvailableDevices(socket.decoded_token.stores, devices));
+
+    this._socket.on("change_device_state", function (data) {
+        io.sockets.emit("change_device_" + data.device_id + "_state", data.data);
+    });
+}
+
+function device(socket) {
+    this._socket = socket;
+
+    var device = devices.find(function (device) {
+        return device.device_id === socket.decoded_token.id
+    });
+
+    if (!device) {
+        devices.push({
+            device_id: socket.decoded_token.id,
+            store_id: socket.decoded_token.store_id
+        })
+    }
+
+    this._socket.join("store_room_" + socket.decoded_token.store_id);
+
+    this._socket.on("device_state", function (data) {
+        io.sockets.emit("device_" + data.device_id + "_state", data.data);
+    });
+}
+
+function user(socket) {
+    this._socket = socket;
+    this._socket.join("user_room");
+}
+
+function getAvailableDevices(stores, devices) {
+    var availableDevices = devices.filter(function (device) {
+        return stores.indexOf(device.store_id) > -1;
+    });
+    return availableDevices;
+}
 // Start Node server at port 3000
 server.listen(3000);
