@@ -31,7 +31,7 @@ abstract class StoreController extends Controller
     public function show(Store $store)
     {
         try {
-            $store = $store->load(['partner', 'vegetables'])->toArray();
+            $store = $store->load(['partner', 'vegetables.images'])->toArray();
 
             return ManageResponse::showStoreResponse('success', $store);
         } catch (Exception $e) {

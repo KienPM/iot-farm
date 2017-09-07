@@ -91,7 +91,7 @@ class CartController extends Controller
             return redirect($url);
         } catch (Exception $e) {
             DB::rollBack();
-            return CartResponse::checkOutFailResponse($e->getMessage());
+            return CartResponse::checkOutResponse('error', $e->getMessage());
         }
     }
 
@@ -239,7 +239,7 @@ class CartController extends Controller
         $orderDescription = '';
         $orderItems = [];
         if ($items->isEmpty()) {
-            return null;
+            throw new Exception(trans('message.cart_is_empty'));
         }
 
         foreach ($items as $item) {
