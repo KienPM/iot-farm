@@ -71,4 +71,9 @@ class Store extends Model
         return $this->belongsToMany(Vegetable::class, 'vegetable_in_store')
             ->withPivot(['id', 'price']);
     }
+
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'entityable');
+    }
 }

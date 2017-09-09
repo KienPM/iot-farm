@@ -28,13 +28,13 @@ class Image extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'src',
+        'title', 'src', 'entityable_id', 'entityable_type',
     ];
 
     protected $table = 'images';
 
-    public function vegetable()
+    public function entityable()
     {
-        return $this->belongsTo(Vegetable::class);
+        return $this->morphTo();
     }
 }

@@ -57,3 +57,45 @@ if (!function_exists('remove_special_character')) {
         return trim(preg_replace($regex, '_', $string), '_');
     }
 }
+
+if (!function_exists('resize_image')) {
+    /**
+     * @param Image $image
+     * @param string $savePath
+     * @param array $savePath
+     */
+    function resize_image($image, $savePath, $maxSize = ['width' => 50, 'height' => 50])
+    {
+        $resizeName = $image->filename . '.rez.' . $image->extension;
+        if ($image->extension != 'gif') {
+            if ($image->height() > $image->width()) {
+                $image->resize($maxSize['width'], null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+            } else {
+                $image->resize(null, $maxSize['height'], function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+            }
+            $image->save("{$savePath}/{$resizeName}");
+        }
+    }
+}
+
+if (!function_exists('get_resized_image')) {
+    /**
+     * @param string $url
+     * @return string
+     */
+    function get_resized_image($url)
+    {
+        if (!$url) {
+            return null;
+        }
+        $rezUrl = str_replace_last('.', '.rez.', $url);
+        if (Storage::disk('public')->exists($rezUrl)) {
+            return Storage::disk('public')->url($rezUrl);
+        }
+        return Storage::disk('public')->url($url);
+    }
+}

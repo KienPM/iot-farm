@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Traits\Activeable;
-use App\Models\Traits\Filterable;
+// use App\Models\Traits\Activeable;
+// use App\Models\Traits\Filterable;
 
 /**
  * App\Models\Vegetable
@@ -26,30 +26,22 @@ use App\Models\Traits\Filterable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Vegetable whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class Vegetable extends Model
+class VegetableCategory extends Model
 {
-    use Activeable, Filterable;
-    const ITEMS_PER_PAGE = 10;
-
+    // use Activeable, Filterable;
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'description', 'price', 'is_actived', 'category_id',
+        'name', 'description',
     ];
 
-    protected $table = 'vegetables';
+    protected $table = 'vegetable_categories';
 
-    public function images()
+    public function vegetables()
     {
-        return $this->morphMany(Image::class, 'entityable');
-    }
-
-    public function stores()
-    {
-        return $this->belongsToMany(Store::class, 'vegetable_in_store')
-            ->withPivot(['id', 'price']);
+        return $this->hasMany(Vegetable::class);
     }
 }

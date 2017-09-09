@@ -10,6 +10,7 @@ use App\Models\Partner;
 use App\Models\SocialUser;
 use App\Models\Store;
 use App\Models\User;
+use App\Models\VegetableCategory;
 use App\Models\Vegetable;
 
 /*
@@ -73,7 +74,6 @@ $factory->define(Device::class, function (Faker\Generator $faker) {
         'is_actived' => true,
     ];
 });
-
 
 $factory->define(DeviceCategory::class, function (Faker\Generator $faker) {
     $faker->addProvider(new Faker\Provider\Lorem($faker));
@@ -170,6 +170,15 @@ $factory->define(User::class, function (Faker\Generator $faker) {
     ];
 });
 
+$factory->define(VegetableCategory::class, function (Faker\Generator $faker) {
+    $faker->addProvider(new Faker\Provider\Lorem($faker));
+    $faker->addProvider(new Faker\Provider\en_US\Text($faker));
+
+    return [
+        'name' => $faker->name,
+        'description' => $faker->realText(),
+    ];
+});
 
 $factory->define(Vegetable::class, function (Faker\Generator $faker) {
     $faker->addProvider(new Faker\Provider\Color($faker));
@@ -177,6 +186,9 @@ $factory->define(Vegetable::class, function (Faker\Generator $faker) {
     $faker->addProvider(new Faker\Provider\Base($faker));
 
     return [
+        'category_id' => function () {
+            return factory(VegetableCategory::class)->create()->id;
+        },
         'name' => $faker->colorName,
         'description' => $faker->realText(),
         'price' => $faker->randomNumber(),

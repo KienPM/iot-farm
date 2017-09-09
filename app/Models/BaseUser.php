@@ -28,9 +28,4 @@ abstract class BaseUser extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-
-    public function isActive()
-    {
-        return $this->is_actived;
-    }
 }

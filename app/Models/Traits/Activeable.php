@@ -8,4 +8,9 @@ trait Activeable
     {
         return $query->where('is_actived', true);
     }
+
+    public function isActive()
+    {
+        return $this->is_actived;
+    }
 }
