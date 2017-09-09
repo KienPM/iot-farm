@@ -107,13 +107,14 @@ class CartController extends Controller
                 'status' => Order::ORDER_PROCESSING,
             ]);
 
-            return CartResponse::checkOutResponse(
-                'success',
-                trans('response.checkout_success', ['orderId' => $order->code]),
-                [
-                    'data' => $order->toArray(),
-                ]
-            );
+            return view('checkout');
+            // return CartResponse::checkOutResponse(
+            //     'success',
+            //     trans('response.checkout_success', ['orderId' => $order->code]),
+            //     [
+            //         'data' => $order->toArray(),
+            //     ]
+            // );
         } catch (Exception $e) {
             return CartResponse::checkOutResponse('error', $e->getMessage());
         }
