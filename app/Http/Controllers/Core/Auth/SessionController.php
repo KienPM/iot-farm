@@ -95,6 +95,7 @@ abstract class SessionController extends Controller
         return [
             'user' => $user->toArray(),
             'auth_token' => $authToken,
+            'guard' => $this->getGuard(),
         ];
     }
 
