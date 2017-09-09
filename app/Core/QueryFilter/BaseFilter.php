@@ -14,7 +14,7 @@ abstract class BaseFilter extends QueryFilter
         ],
     ];
 
-    protected $table;
+    protected $masterTable;
 
     protected $quickSearchFields = [];
 
@@ -36,7 +36,7 @@ abstract class BaseFilter extends QueryFilter
 
         return $this->builder->where(function ($query) use ($pattern) {
             foreach ($this->quickSearchFields as $field) {
-                $query->orWhere("{$this->table}.{$field}", 'LIKE', "%{$pattern}%");
+                $query->orWhere("{$this->masterTable}.{$field}", 'LIKE', "%{$pattern}%");
             }
         });
     }
@@ -46,6 +46,6 @@ abstract class BaseFilter extends QueryFilter
         $orderBy = $this->getFilterValue($this->avaiableFilters['order']['sort_by']) ?: 'id';
         $sortType = $this->getFilterValue($this->avaiableFilters['order']['sort_type']) ?: 'DESC';
 
-        return $this->builder->orderBy("{$this->table}.{$orderBy}", $sortType);
+        return $this->builder->orderBy("{$this->masterTable}.{$orderBy}", $sortType);
     }
 }

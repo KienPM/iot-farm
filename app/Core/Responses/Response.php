@@ -5,11 +5,14 @@ namespace App\Core\Responses;
 class Response
 {
 
-    public static function basicResponse($action, $name, $status, $data = null, $code = 200)
+    public static function basicResponse($action, $name, $status, $data = null, $message = '', $code = 200)
     {
+        if(!$message) {
+            $message = trans('response.' . $action .'_' . $status, ['name' => trans('name.' . $name)]);
+        }
         return static::response(
             config('status.' . $status),
-            trans('response.' . $action .'_' . $status, ['name' => trans('name.' . $name)]),
+            $message,
             $data,
             $code
         );
