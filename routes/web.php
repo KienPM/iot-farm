@@ -45,6 +45,10 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
         });
     });
 
+    Route::group(['prefix' => 'users'], function () {
+        Route::get('/', 'UserController@index');
+    });
+
     Route::group(['prefix' => 'vegetables'], function () {
         Route::get('/', 'VegetableController@index');
         Route::post('/', 'VegetableController@create');

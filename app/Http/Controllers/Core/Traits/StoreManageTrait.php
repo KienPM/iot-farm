@@ -8,8 +8,6 @@ use App\Models\Store;
 
 trait StoreManageTrait
 {
-    use BaseManageTrait;
-
     public function update(Store $store, Request $request)
     {
         $this->validateUpdateRequest($request, $store);
