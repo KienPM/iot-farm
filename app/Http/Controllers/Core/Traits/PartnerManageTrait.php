@@ -6,8 +6,6 @@ use App\Core\Responses\Store\ManageResponse;
 
 trait PartnerManageTrait
 {
-    use BaseManageTrait;
-
     protected function validateCreateRequest($request)
     {
         $createRules = [
