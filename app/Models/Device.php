@@ -45,6 +45,7 @@ class Device extends Model implements
 {
     use Authenticatable, Authorizable, Activeable, Filterable;
 
+    const ITEMS_PER_PAGE = 10;
     /**
      * The attributes that are mass assignable.
      *

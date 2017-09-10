@@ -12,6 +12,8 @@ use App\Models\Store;
 use App\Models\User;
 use App\Models\VegetableCategory;
 use App\Models\Vegetable;
+use App\Models\Trunk;
+use App\Models\TrunkStatus;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +36,47 @@ use App\Models\Vegetable;
     $faker->addProvider(new Faker\Provider\Internet($faker));
     $faker->addProvider(new Faker\Provider\en_US\Payment($faker));
 **/
+
+$factory->define(Trunk::class, function (Faker\Generator $faker) {
+    $faker->addProvider(new Faker\Provider\Base($faker));
+    static $code = 1;
+
+    return [
+        'code' => $code++,
+        'store_id' => function() {
+            return factory(Store::class)->create()->id;
+        },
+        'is_actived' => true,
+    ];
+});
+
+$factory->define(TrunkStatus::class, function (Faker\Generator $faker) {
+    $faker->addProvider(new Faker\Provider\Base($faker));
+    $faker->addProvider(new Faker\Provider\DateTime($faker));
+    return [
+        'trunk_id' => function() {
+            return factory(Trunk::class)->create()->id;
+        },
+        'vegetable_id' => function() {
+            return factory(Vegetable::class)->create()->id;
+        },
+        'number_grow_day' => $faker->numberBetween(30, 120),
+        'planting_day' => $faker->dateTimeBetween('-1 years', 'now'),
+        'basket_1' => $faker->numberBetween(0, 1),
+        'basket_2' => $faker->numberBetween(0, 1),
+        'basket_3' => $faker->numberBetween(0, 1),
+        'basket_4' => $faker->numberBetween(0, 1),
+        'basket_5' => $faker->numberBetween(0, 1),
+        'basket_6' => $faker->numberBetween(0, 1),
+        'basket_7' => $faker->numberBetween(0, 1),
+        'basket_8' => $faker->numberBetween(0, 1),
+        'basket_9' => $faker->numberBetween(0, 1),
+        'basket_10' => $faker->numberBetween(0, 1),
+        'basket_11' => $faker->numberBetween(0, 1),
+        'basket_12' => $faker->numberBetween(0, 1),
+        'basket_13' => $faker->numberBetween(0, 1),
+    ];
+});
 
 $factory->define(Admin::class, function (Faker\Generator $faker) {
     $faker->addProvider(new Faker\Provider\en_US\PhoneNumber($faker));
@@ -123,7 +166,7 @@ $factory->define(Partner::class, function (Faker\Generator $faker) {
 
     return [
         'name' => $faker->name,
-        'email' => $faker->unique()->freeEmail,
+        'email' => $faker->unique()->companyEmail,
         'password' => bcrypt('12344321'),
         'phone_number' => $faker->tollFreePhoneNumber(),
         'remember_token' => str_random(32),

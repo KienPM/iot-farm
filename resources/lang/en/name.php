@@ -7,5 +7,6 @@ return [
     'user' => 'user',
     'cart' => 'cart',
     'order' => 'order',
+    'trunk' => 'trunk',
     'vegetable' => 'vegetable',
 ];
