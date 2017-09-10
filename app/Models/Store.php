@@ -56,6 +56,11 @@ class Store extends Model
         return $this->hasMany(Device::class);
     }
 
+    public function trunks()
+    {
+        return $this->hasMany(Trunk::class);
+    }
+
     public function activeDevices()
     {
         return $this->devices()->active();
