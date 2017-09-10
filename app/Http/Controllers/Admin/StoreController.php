@@ -9,6 +9,7 @@ use App\Models\Device;
 use App\Http\Controllers\Core\StoreController as BaseController;
 use App\Http\Controllers\Core\Traits\StoreManageTrait;
 use Exception;
+use App\Core\Responses\Trunk\TrunkResponse;
 use App\Core\Responses\Store\ManageResponse;
 use DB;
 
@@ -57,6 +58,34 @@ class StoreController extends BaseController
         } catch (Exception $e) {
             DB::rollBack();
             return ManageResponse::createStoreResponse('error');
+        }
+    }
+
+    public function addTrunks(Store $store, Request $request)
+    {
+        $addRules = [
+            'trunks_count' => 'required|integer',
+        ];
+        $this->validate($request, $addRules);
+        try {
+            $trunkTop = $store->trunks()->orderBy('code', 'desc')->first();
+            $startCode = 1;
+            if ($trunkTop) {
+                $startCode = $trunkTop->code + 1;
+            }
+            $this->createTrunk($store, $request, $startCode);
+
+            $all = $request->get('all', 0);
+            if ($all) {
+                $trunks = ['data' => $store->trunks()->get()->toArray()];
+            } else {
+                $itemPerPage = $request->get('items_per_page', Trunk::ITEMS_PER_PAGE);
+                $trunks = $store->trunks()->paginate($itemPerPage)->toArray();
+            }
+
+            return TrunkResponse::listTrunkResponse('success', $trunks);
+        } catch (Exception $e) {
+            return TrunkResponse::listTrunkResponse('error');
         }
     }
 
@@ -122,12 +151,13 @@ class StoreController extends BaseController
         return $this->validate($request, $createRules);
     }
 
-    protected function createTrunk($store, $request)
+    protected function createTrunk($store, $request, $startCode = 1)
     {
         $trunksCount = $request->get('trunks_count', 0);
+        $maxCode = $startCode + $trunksCount;
         $trunks = [];
         if ($trunksCount) {
-            for ($i = 1; $i <= $trunksCount; $i++) {
+            for ($i = $startCode; $i < $maxCode; $i++) {
                 $trunks[] = [
                     'code' => $i,
                 ];

@@ -34,9 +34,9 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
             Route::post('/', 'StoreController@update');
             Route::get('devices', 'StoreController@devices');
             Route::post('delete', 'StoreController@delete');
+            Route::post('add-trunks', 'StoreController@addTrunks');
             Route::group(['prefix' => 'trunks'], function () {
                 Route::get('/', 'TrunkController@index');
-                // Route::post('/', 'StoreController@update');
                 // Route::get('devices', 'StoreController@devices');
             });
         });
