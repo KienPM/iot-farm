@@ -37,7 +37,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
             Route::post('add-trunks', 'StoreController@addTrunks');
             Route::group(['prefix' => 'trunks'], function () {
                 Route::get('/', 'TrunkController@index');
-                // Route::get('devices', 'StoreController@devices');
+                Route::get('status', 'TrunkController@trunksStatus');
+                Route::post('status', 'TrunkController@updateTrunksStatus');
             });
         });
     });
