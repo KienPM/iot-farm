@@ -13,7 +13,7 @@ abstract class StoreController extends Controller
 {
     public function __construct()
     {
-        $this->middleware($this->authMiddleware())->except(['index', 'show']);
+        $this->middleware($this->authMiddleware());
     }
 
     public function index(Request $request, StoreFilter $query)
