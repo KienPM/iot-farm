@@ -37,7 +37,12 @@ class StoreController extends BaseController implements StoreManageContract
     {
         $user = $request->user();
         $itemPerPage = $request->get('items_per_page', Store::ITEMS_PER_PAGE);
-        return Store::filterBy($query)->where('partner_id', $user->id)->with('partner')->paginate($itemPerPage);
+        $stores = Store::filterBy($query)->where('partner_id', $user->id)->paginate($itemPerPage);
+        return ManageResponse::response(
+            'success',
+            trans('response.list_success', ['name' => trans('name.store')]),
+            $stores->toArray()
+        );
     }
 
     public function show(Store $store, Request $request)
@@ -47,7 +52,11 @@ class StoreController extends BaseController implements StoreManageContract
             return ManageResponse::cantContinue();
         }
 
-        return $store->load(['partner', 'vegetables']);
+        return ManageResponse::response(
+            'success',
+            trans('response.list_success', ['name' => trans('name.store')]),
+            $store->load(['vegetables'])->toArray()
+        );
     }
 
     public function devices(Store $store)
