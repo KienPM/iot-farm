@@ -28,7 +28,7 @@ abstract class StoreController extends Controller
         }
     }
 
-    public function show(Store $store)
+    public function show(Store $store, Request $request)
     {
         try {
             $store = $store->load(['partner', 'vegetables.images'])->toArray();
