@@ -114,8 +114,8 @@ Route::group(['namespace' => 'Partner', 'prefix' => 'partner'], function () {
             Route::get('devices', 'StoreController@devices');
             Route::group(['prefix' => 'trunks'], function () {
                 Route::get('/', 'TrunkController@index');
-                // Route::post('/', 'StoreController@update');
-                // Route::get('devices', 'StoreController@devices');
+                Route::get('status', 'TrunkController@trunksStatus');
+                Route::post('status', 'TrunkController@updateTrunksStatus');
             });
         });
     });

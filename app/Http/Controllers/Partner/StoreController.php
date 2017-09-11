@@ -40,9 +40,9 @@ class StoreController extends BaseController implements StoreManageContract
         return Store::filterBy($query)->where('partner_id', $user->id)->with('partner')->paginate($itemPerPage);
     }
 
-    public function show(Store $store)
+    public function show(Store $store, Request $request)
     {
-        $user = Auth::guard($this->getGuard())->user();
+        $user = $request->user();
         if ($user->id !== $store->partner_id) {
             return ManageResponse::cantContinue();
         }
