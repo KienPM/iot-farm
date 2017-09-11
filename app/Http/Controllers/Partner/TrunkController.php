@@ -42,6 +42,33 @@ class TrunkController extends Controller
         }
     }
 
+    public function trunkStatus(Store $store, Trunk $trunk, Request $request)
+    {
+        $user = $request->user();
+        try {
+            if (!$this->checkMyStore($store, $user)) {
+                throw new Exception('Store not found!');
+            }
+            if ($trunk->store_id != $store->id) {
+                throw new Exception('Trunk not in this store!');
+            }
+            $all = $request->get('all', 0);
+            if ($all) {
+                $trunkStatus = $trunk->status()->get()->toArray();
+                $trunkStatus = [
+                    'data' => $trunkStatus,
+                ];
+            } else {
+                $itemPerPage = $request->get('items_per_page', Trunk::ITEMS_PER_PAGE);
+                $trunkStatus = $trunk->status()->paginate($itemPerPage)->toArray();
+            }
+            return TrunkResponse::listTrunkResponse('success', $trunkStatus);
+
+        } catch (Exception $e) {
+            return TrunkResponse::listTrunkResponse('error');
+        }
+    }
+
     public function trunksStatus(Store $store, Request $request)
     {
         $user = $request->user();
@@ -56,6 +83,9 @@ class TrunkController extends Controller
                     $trunk['status'] = count($trunk['status']) > 0 ? $trunk['status'][0] : null;
                     return $trunk;
                 });
+                $trunks = [
+                    'data' => $trunks,
+                ];
             } else {
                 $itemPerPage = $request->get('items_per_page', Trunk::ITEMS_PER_PAGE);
                 $trunks = $store->trunks()->with('status')->paginate($itemPerPage)->toArray();
