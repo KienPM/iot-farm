@@ -24,7 +24,7 @@ class Trunk extends Model
 
     public function status()
     {
-        return $this->hasMany(TrunkStatus::class);
+        return $this->hasMany(TrunkStatus::class)->orderBy('id', 'desc');
     }
 
     public function store()
