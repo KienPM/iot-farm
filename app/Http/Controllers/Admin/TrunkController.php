@@ -16,6 +16,11 @@ class TrunkController extends Controller
 {
     protected $guard = 'admin';
 
+    public function __construct()
+    {
+        $this->middleware($this->authMiddleware());
+    }
+
     public function index(Store $store, Request $request)
     {
         try {
