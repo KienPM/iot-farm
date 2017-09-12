@@ -31,8 +31,8 @@ class SessionController extends BaseSessionController
             $user = User::create($newUser);
             $credentials = $this->getCredentials($request);
 
-            if ($this->attemptLogin($request, $credentials)) {
-                return $this->userWasAuthenticated($auth);
+            if (!$this->attemptLogin($request, $credentials)) {
+                throw new Exception('Can not login!');
             }
 
             DB::commit();
