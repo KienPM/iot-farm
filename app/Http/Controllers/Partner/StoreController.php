@@ -59,7 +59,7 @@ class StoreController extends BaseController implements StoreManageContract
         );
     }
 
-    public function devices(Store $store)
+    public function devices(Store $store, Request $request)
     {
         if ($request->user()->id !== $store->partner_id) {
             return ManageResponse::cantContinue();
