@@ -46,7 +46,7 @@ class CartController extends Controller
 
             $orderInfo = $this->generateOrderInfo($items);
             $order = $this->addOrderAndItems($user, $orderCode, $orderInfo);
-            $this->removeCartItems($items);
+            // $this->removeCartItems($items);
 
             $returnUrl = url(config('order.return_url') . '/' . $order->id);
             $cancelUrl = url(config('order.cancel_url') . '/' . $order->id);
@@ -106,6 +106,8 @@ class CartController extends Controller
             $order->update([
                 'status' => Order::ORDER_PROCESSING,
             ]);
+            $items = $user->checkedItems()->with('vegetableInStore.vegetable')->get();
+            $this->removeCartItems($items);
 
             return view('checkout');
             // return CartResponse::checkOutResponse(
