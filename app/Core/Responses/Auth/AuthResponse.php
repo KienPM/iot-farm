@@ -38,6 +38,12 @@ class AuthResponse extends Response
 
     public static function loginSuccessResponse($data = null)
     {
+        if ($data && $data['guard'] == 'device') {
+            return [
+                'status' => 'success',
+                'data' => $data,
+            ];
+        }
         return static::responseWithToken(
             config('status.success'),
             trans('auth.login_success'),
