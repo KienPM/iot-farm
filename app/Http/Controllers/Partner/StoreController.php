@@ -37,11 +37,19 @@ class StoreController extends BaseController implements StoreManageContract
     {
         $user = $request->user();
         $itemPerPage = $request->get('items_per_page', Store::ITEMS_PER_PAGE);
-        $stores = Store::filterBy($query)->where('partner_id', $user->id)->paginate($itemPerPage);
+        $all = $request->get('all', 0);
+        if ($all) {
+            $stores = [
+                'data' => Store::where('partner_id', $user->id)->get()->toArray(),
+            ];
+        } else {
+            $stores = Store::filterBy($query)->where('partner_id', $user->id)->paginate($itemPerPage)->toArray();
+        }
+
         return ManageResponse::response(
             'success',
             trans('response.list_success', ['name' => trans('name.store')]),
-            $stores->toArray()
+            $stores
         );
     }
 

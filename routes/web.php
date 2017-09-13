@@ -119,6 +119,10 @@ Route::group(['namespace' => 'Partner', 'prefix' => 'partner'], function () {
             });
         });
     });
+
+    Route::group(['prefix' => 'vegetables'], function () {
+        Route::get('/', 'VegetableController@index');
+    });
 });
 
 Route::group(['namespace' => 'Device', 'prefix' => 'device'], function () {
