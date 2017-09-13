@@ -23,4 +23,19 @@ class SessionController extends BaseSessionController
             'store_id' => $device->store_id,
         ];
     }
+
+    protected function makeUserResult($user, $authToken)
+    {
+        return [
+            'user' => [
+                'id' => $user->id,
+                'store_id' => $user->store_id,
+                // 'category_id' => $user->category_id,
+                // 'name' => $user->name,
+                // 'identify_code' => $user->identify_code,
+            ],
+            'auth_token' => $authToken,
+            'guard' => $this->getGuard(),
+        ];
+    }
 }

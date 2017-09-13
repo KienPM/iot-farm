@@ -104,14 +104,14 @@ abstract class SessionController extends Controller
         return $this->response([
             'status' => 'not_login',
             'message' => trans('auth.not_login')
-        ], 401);
+        ], 200);
     }
 
     protected function responseToFailedLogin()
     {
         return $this->response([
-            'status' => 'not_login',
+            'status' => 'login_fail',
             'message' => trans('auth.failed')
-        ], 401);
+        ], 200);
     }
 }
