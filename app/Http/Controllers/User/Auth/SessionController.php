@@ -147,7 +147,7 @@ class SessionController extends BaseSessionController
     protected function validateRegisterRequest($request)
     {
         $registerRule = [
-            'name' => 'required|string|unique:users,name',
+            'name' => 'required|string',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|confirmed',
             'phone_number' => 'numeric',
