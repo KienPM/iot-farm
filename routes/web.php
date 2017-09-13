@@ -12,11 +12,16 @@
 */
 
 Route::get('/', function () {
-    // return view('checkout');
     return [
         'status' => 'normal',
         'message' => 'Server work normally!',
     ];
+});
+
+Route::group(['prefix' => 'test'], function () {
+    Route::get('partner', function () {
+        return view('test/partner');
+    });
 });
 
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
