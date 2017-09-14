@@ -91,7 +91,7 @@ class SessionController extends BaseSessionController
 
             $user = User::create([
                 'name' => $socialData['name'],
-                'email' => $socialData['email'] ? $socialData['email'] : uniqid(),
+                'email' => $socialData['email'] ? $socialData['email'] : $this->getRandomEmail(),
                 'password' => uniqid(),
                 'is_actived' => true,
             ]);
@@ -99,6 +99,11 @@ class SessionController extends BaseSessionController
         }
 
         return $user;
+    }
+
+    protected function getRandomEmail()
+    {
+        return uniqid() . '@farmily.vn';
     }
 
     protected function createSocial($user, $socialData)
