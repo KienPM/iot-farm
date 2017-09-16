@@ -17,8 +17,13 @@ class DevicesTableSeeder extends Seeder
         $now = Carbon::now()->toDateTimeString();
         DB::table('devices')->truncate();
         DB::table('stores')->truncate();
-        $storeId = factory(Store::class)->create()->id;
-        $categoryId = factory(DeviceCategory::class)->create()->id;
+        DB::table('device_categories')->truncate();
+        $storeId = factory(Store::class)->create([
+            'partner_id' => 1,
+        ])->id;
+        $categoryId = factory(DeviceCategory::class)->create([
+            'name' => 'Cảm biến nhệt độ',
+        ])->id;
         DB::table('devices')->insert([
             [
                 'id' => 1,
