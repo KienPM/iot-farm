@@ -192,6 +192,7 @@ $factory->define(Store::class, function (Faker\Generator $faker) {
         'partner_id' => function() {
             return factory(Partner::class)->create()->id;
         },
+        'name' => $faker->name,
         'address' => $faker->streetAddress,
         'info' => $faker->streetAddress,
         'latitude' => $faker->latitude(20.7665365, 21.3909648),
