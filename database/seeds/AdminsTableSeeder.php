@@ -20,6 +20,7 @@ class AdminsTableSeeder extends Seeder
                 'name' => 'hoanghoi-admin',
                 'email' => 'hoanghoi1310@gmail.com',
                 'phone_number' => '0982708002',
+                'is_super' => 1,
                 'password' => bcrypt('12344321'),
                 'created_at' => $now,
                 'updated_at' => $now,
