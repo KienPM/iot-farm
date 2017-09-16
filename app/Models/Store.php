@@ -46,7 +46,7 @@ class Store extends Model
      * @var array
      */
     protected $fillable = [
-        'partner_id', 'address', 'info', 'is_actived', 'latitude', 'longitude',
+        'partner_id', 'name', 'address', 'info', 'is_actived', 'latitude', 'longitude',
     ];
 
     protected $table = 'stores';

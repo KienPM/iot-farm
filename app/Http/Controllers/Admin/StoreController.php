@@ -18,7 +18,7 @@ class StoreController extends BaseController
     use StoreManageTrait;
 
     protected $guard = 'admin';
-    protected $updateFields = ['partner_id', 'address', 'info', 'latitude', 'longitude', 'is_actived'];
+    protected $updateFields = ['partner_id', 'name', 'address', 'info', 'latitude', 'longitude', 'is_actived'];
 
     public function devices(Store $store, Request $request)
     {
@@ -44,6 +44,7 @@ class StoreController extends BaseController
             DB::beginTransaction();
             $storeData = $request->only([
                 'partner_id',
+                'name',
                 'address',
                 'info',
                 'latitude',
@@ -126,6 +127,7 @@ class StoreController extends BaseController
     {
         $updateRules = [
             'partner_id' => 'required|exists:partners,id',
+            'name' => 'string',
             'address' => 'required:string',
             'info' => 'max:50000',
             'is_actived' => 'boolean',
@@ -140,6 +142,7 @@ class StoreController extends BaseController
     {
         $createRules = [
             'partner_id' => 'required|exists:partners,id',
+            'name' => 'string',
             'address' => 'required:string',
             'info' => 'max:50000',
             'is_actived' => 'boolean',
