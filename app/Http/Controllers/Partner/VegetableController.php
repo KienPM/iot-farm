@@ -26,23 +26,18 @@ class VegetableController extends Controller
 
             if ($all) {
                 $vegetables = [
-                    'data' => Vegetable::with(['images'])
+                    'data' => Vegetable::select(['id', 'name'])
                         ->get()
                         ->toArray(),
                 ];
             } else {
                 $itemPerPage = $request->get('items_per_page', Vegetable::ITEMS_PER_PAGE);
                 $vegetables = Vegetable::filterBy($query)
-                    ->with(['images'])
+                    ->select(['id', 'name'])
                     ->paginate($itemPerPage)
                     ->toArray();
             }
 
-            $vegetables['data'] = collect($vegetables['data'])->map(function ($vegetable) {
-                $vegetable['image'] = empty($vegetable['images']) ? null : $vegetable['images'][0];
-                unset($vegetable['images']);
-                return $vegetable;
-            })->toArray();
             return VegetableResponse::listVegetableResponse('success', $vegetables);
         } catch (Exception $e) {
             return VegetableResponse::listVegetableResponse('error', null, $e->getMessage());
