@@ -19,6 +19,14 @@ Route::get('/', function () {
 });
 
 Route::group(['prefix' => 'test'], function () {
+    Route::group(['prefix' => 'checkout'], function () {
+        Route::get('success', function () {
+            return view('checkout.success');
+        });
+        Route::get('cancel', function () {
+            return view('checkout.cancel');
+        });
+    });
     Route::get('partner', function () {
         return view('test/partner');
     });
@@ -114,6 +122,9 @@ Route::group(['namespace' => 'Partner', 'prefix' => 'partner'], function () {
     Route::group(['prefix' => 'stores'], function () {
         Route::get('/', 'StoreController@index');
         Route::group(['prefix' => '{store}'], function () {
+            Route::group(['prefix' => 'orders'], function () {
+                Route::get('/', 'OrderController@index');
+            });
             Route::get('/', 'StoreController@show');
             Route::post('/', 'StoreController@update');
             Route::get('devices', 'StoreController@devices');

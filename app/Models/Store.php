@@ -81,4 +81,9 @@ class Store extends Model
     {
         return $this->morphMany(Image::class, 'entityable');
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

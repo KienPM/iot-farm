@@ -35,22 +35,31 @@ class CartController extends Controller
 
     public function checkout(Request $request)
     {
-        try {
+        // try {
 
             DB::beginTransaction();
             $user = $request->user();
             $items = $user->checkedItems()->with('vegetableInStore.vegetable')->get();
 
+            if ($items->isEmpty()) {
+                throw new Exception(trans('message.cart_is_empty'));
+            }
+
+
+
+            // dd($items);
+
             //Mã đơn hàng
             $orderCode = $this->generateOrderCode();
 
             $orderInfo = $this->generateOrderInfo($items);
-            $order = $this->addOrderAndItems($user, $orderCode, $orderInfo);
+            // dd($orderInfo);
+            $orders = $this->addOrderAndItems($user, $orderCode, $orderInfo);
             // $this->removeCartItems($items);
 
-            $returnUrl = url(config('order.return_url') . '/' . $order->id);
-            $cancelUrl = url(config('order.cancel_url') . '/' . $order->id);
-
+            $returnUrl = url(config('order.return_url') . '/' . $orderCode);
+            $cancelUrl = url(config('order.cancel_url') . '/' . $orderCode);
+            dd($returnUrl, $cancelUrl);
             // Thong tin khach hang
             $name = $user->name;
             $email = $user->email;
@@ -89,10 +98,10 @@ class CartController extends Controller
 
             DB::commit();
             return redirect($url);
-        } catch (Exception $e) {
-            DB::rollBack();
-            return CartResponse::checkOutResponse('error', $e->getMessage());
-        }
+        // } catch (Exception $e) {
+        //     DB::rollBack();
+        //     return CartResponse::checkOutResponse('error', $e->getMessage());
+        // }
     }
 
     public function checkoutReturn(Order $order, Request $request)
@@ -109,7 +118,7 @@ class CartController extends Controller
             $items = $user->checkedItems()->with('vegetableInStore.vegetable')->get();
             $this->removeCartItems($items);
 
-            return view('checkout');
+            return view('checkout.success');
             // return CartResponse::checkOutResponse(
             //     'success',
             //     trans('response.checkout_success', ['orderId' => $order->code]),
@@ -134,10 +143,13 @@ class CartController extends Controller
             $this->addCartItems($user, $items);
             $this->removeOrderAndItems($order);
             DB::commit();
+            return view('checkout.cancel');
 
-            return CartResponse::checkOutResponse('warning', trans('response.checkout_cancel'));
+            // return CartResponse::checkOutResponse('warning', trans('response.checkout_cancel'));
         } catch (Exception $e) {
             DB::rollBack();
+            // return view('checkout.cancel');
+            // return redirect('/');
             return CartResponse::checkOutResponse('error', $e->getMessage());
         }
     }
@@ -238,22 +250,34 @@ class CartController extends Controller
 
     protected function generateOrderInfo($items)
     {
+        $items = $items->groupBy('vegetableInStore.store_id');
+
         $totalPrice = 0;
         $orderDescription = '';
-        $orderItems = [];
-        if ($items->isEmpty()) {
-            throw new Exception(trans('message.cart_is_empty'));
-        }
+        $orderGroup = [];
 
-        foreach ($items as $item) {
-            $price = $item->quantity * $item->vegetableInStore->price;
-            $totalPrice += $price;
-            $orderDescription .= $item->quantity . '*';
-            $orderDescription .= $item->vegetableInStore->vegetable->name . ' ';
-            $orderDescription .= number_format($price , 0, ',', '.') . '.000 vnd, ';
-            $orderItems[] = [
-                'vegetable_in_store_id' => $item->vegetable_in_store_id,
-                'quantity' => $item->quantity,
+        foreach ($items as $storeId => $itemsInStore) {
+            $orderItems = [];
+            $priceInStore = 0;
+            $orderInStoreDescription = '';
+            foreach ($itemsInStore as $item) {
+                $price = $item->quantity * $item->vegetableInStore->price;
+                $priceInStore += $price;
+                $orderInStoreDescription .= $item->quantity . '*';
+                $orderInStoreDescription .= $item->vegetableInStore->vegetable->name . ' ';
+                $orderInStoreDescription .= number_format($price , 0, ',', '.') . '.000 vnd, ';
+                $orderItems[] = [
+                    'vegetable_in_store_id' => $item->vegetable_in_store_id,
+                    'quantity' => $item->quantity,
+                ];
+            }
+            $totalPrice += $priceInStore;
+            $orderDescription .= $orderInStoreDescription;
+            $orderGroup[] = [
+                'price_in_store' => $priceInStore,
+                'description' => trim($orderInStoreDescription, ', '),
+                'order_items' => $orderItems,
+                'store_id' => $storeId,
             ];
         }
 
@@ -264,21 +288,28 @@ class CartController extends Controller
         return [
             'total_price' => $totalPrice,
             'description' => trim($orderDescription, ', '),
-            'order_items' => $orderItems,
+            'order_group' => $orderGroup,
+            // 'store_id' =>
         ];
     }
 
     protected function addOrderAndItems($user, $orderCode, $orderInfo)
     {
-        $order = $user->orders()->create([
-            'code' => $orderCode,
-            'total_price' => $orderInfo['total_price'],
-            'status' => Order::ORDER_SUBMITED,
-        ]);
+        $orders = [];
+        // dd($orderInfo);
+        foreach ($orderInfo['order_group'] as $orderGroup) {
+            $order = $user->orders()->create([
+                'code' => $orderCode,
+                'store_id' => $orderGroup['store_id'],
+                'total_price' => $orderGroup['price_in_store'],
+                'status' => Order::ORDER_SUBMITED,
+            ]);
 
-        $order->items()->createMany($orderInfo['order_items']);
+            $order->items()->createMany($orderInfo['order_items']);
+            $orders[] = $order;
+        }
 
-        return $order;
+        return $orders;
     }
 
     protected function addCartItems(User $user, $items)

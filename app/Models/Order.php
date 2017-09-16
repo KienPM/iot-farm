@@ -38,7 +38,7 @@ class Order extends Model
      * @var array
      */
     protected $fillable = [
-        'code', 'user_id', 'bank_account_id', 'store_id', 'total_price', 'status',
+        'code', 'user_id', 'store_id', 'total_price', 'status',
     ];
 
     protected $table = 'orders';
