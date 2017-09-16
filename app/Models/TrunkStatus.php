@@ -18,6 +18,7 @@ class TrunkStatus extends Model
         'vegetable_id',
         'number_grow_day',
         'planting_day',
+        'pump',
         'basket_1',
         'basket_2',
         'basket_3',
