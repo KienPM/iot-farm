@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Storage;
 
 /**
  * App\Models\Image
@@ -36,5 +37,19 @@ class Image extends Model
     public function entityable()
     {
         return $this->morphTo();
+    }
+
+    public function getSrcAttribute($value)
+    {
+        if ($this->entityable_type == Vegetable::class) {
+            $imageSrc = 'public/' . config('upload.path.vegetables_image') . '/' . $value;
+            if (Storage::exists($imageSrc)) {
+                return Storage::url($imageSrc);
+            }
+
+            return 'public/' . config('upload.path.default') . '/' . config('upload.default.vegetables_image');
+        }
+
+        return $value;
     }
 }

@@ -45,7 +45,6 @@ class VegetableController extends Controller
     public function create(Request $request)
     {
         $this->validateCreateRequest($request);
-
         try {
             DB::beginTransaction();
             $vegetableData = $request->only([

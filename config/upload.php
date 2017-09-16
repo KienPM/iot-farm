@@ -7,5 +7,9 @@ return [
     'path' => [
         'images' => 'images',
         'vegetables_image' => 'images/vegetables',
+        'default' => 'images/default',
     ],
+    'default' => [
+        'vegetables_image' => 'vegetable.jpg',
+    ]
 ];
