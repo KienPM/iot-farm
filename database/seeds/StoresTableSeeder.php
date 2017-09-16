@@ -24,15 +24,15 @@ class StoresTableSeeder extends Seeder
         $deviceCategoryIdMax = $deviceCategory->count() - 1;
         $faker->addProvider(new Faker\Provider\Base($faker));
         $masterPartner = Partner::find(1);
-        $masterPartner->stores()->saveMany(factory(Store::class, 10)->make());
+        $masterPartner->stores()->saveMany(factory(Store::class, 2)->make());
 
         $vegetablesInStore = $vegetables->mapWithKeys(function ($vegetable) use ($faker) {
             return [$vegetable->id => ['price' => $faker->numberBetween(5,20)]];
         })->toArray();
 
-        factory(Store::class, 100)->create()
+        factory(Store::class, 10)->create()
             ->each(function ($store) use ($vegetablesInStore, $deviceCategory, $faker, $deviceCategoryIdMax) {
-                $store->devices()->saveMany(factory(Device::class, 100)->make([
+                $store->devices()->saveMany(factory(Device::class, 5)->make([
                     'category_id' => $deviceCategory[$faker->numberBetween(0, $deviceCategoryIdMax)]->id,
                 ]));
                 $store->vegetables()->attach($vegetablesInStore);
