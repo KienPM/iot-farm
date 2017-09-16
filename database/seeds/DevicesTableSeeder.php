@@ -22,13 +22,13 @@ class DevicesTableSeeder extends Seeder
             'partner_id' => 1,
         ])->id;
         $categoryId = factory(DeviceCategory::class)->create([
-            'name' => 'Cảm biến nhệt độ',
+            'name' => 'Cảm biến nhiệt độ',
         ])->id;
         DB::table('devices')->insert([
             [
                 'id' => 1,
                 'identify_code' => 'AAAAA0000000001',
-                'name' => 'Cam bien nhiet do',
+                'name' => 'Cảm biến nhiệt độ không khí',
                 'password' => bcrypt('12344321'),
                 'store_id' => $storeId,
                 'category_id' => $categoryId,
