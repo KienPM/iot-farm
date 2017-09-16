@@ -22,7 +22,7 @@ Data của gói tin post gửi đi: Sử dụng partner test đã tạo sẵn d�
     email: 'hoanghoi1310@gmail.com',
     password: '12344321',
 }
-``
+```
 
 Kết quả nhận được là thông tin user đang đăng nhập.
 
