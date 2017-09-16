@@ -103,6 +103,7 @@ class TrunkController extends Controller
             'trucks_status.*.vegetable_id' => 'required|exists:vegetable,id',
             'trucks_status.*.number_grow_day' => 'required|interger',
             'trucks_status.*.planting_day' => 'required|date',
+            'trucks_status.*.pump' => 'required|integer',
             'trucks_status.*.basket_1' => 'boolean',
             'trucks_status.*.basket_2' => 'boolean',
             'trucks_status.*.basket_3' => 'boolean',
