@@ -7,9 +7,13 @@ return [
     'path' => [
         'images' => 'images',
         'vegetables_image' => 'images/vegetables',
+        'logos_image' => 'images/logos',
+        'stores_image' => 'images/stores',
         'default' => 'images/default',
     ],
     'default' => [
-        'vegetables_image' => 'vegetable.jpg',
+        'logo_image' => 'logo.png',
+        'store_image' => 'store.jpg',
+        'vegetable_image' => 'vegetable.jpg',
     ]
 ];

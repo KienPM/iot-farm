@@ -187,13 +187,17 @@ $factory->define(SocialUser::class, function (Faker\Generator $faker) {
 
 $factory->define(Store::class, function (Faker\Generator $faker) {
     $faker->addProvider(new Faker\Provider\en_US\Address($faker));
+    $faker->addProvider(new Faker\Provider\en_US\PhoneNumber($faker));
+    $faker->addProvider(new Faker\Provider\Image($faker));
 
     return [
         'partner_id' => function() {
             return factory(Partner::class)->create()->id;
         },
+        'logo' => $faker->imageUrl(50, 50),
         'name' => $faker->name,
         'address' => $faker->streetAddress,
+        'phone_number' => $faker->tollFreePhoneNumber(),
         'info' => $faker->streetAddress,
         'latitude' => $faker->latitude(20.7665365, 21.3909648),
         'longitude' => $faker->longitude(104.9722854, 105.9933738),
