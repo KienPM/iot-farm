@@ -68,6 +68,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
         });
     });
 
+    Route::any('data/{type}', 'MasterDataController@index');
 });
 
 Route::group(['namespace' => 'User'], function () {
@@ -128,6 +129,8 @@ Route::group(['namespace' => 'Partner', 'prefix' => 'partner'], function () {
     Route::group(['prefix' => 'vegetables'], function () {
         Route::get('/', 'VegetableController@index');
     });
+
+    Route::any('data/{type}', 'MasterDataController@index');
 });
 
 Route::group(['namespace' => 'Device', 'prefix' => 'device'], function () {

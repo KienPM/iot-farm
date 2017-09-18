@@ -4,43 +4,17 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Models\Vegetable;
-// use App\Http\Controllers\Core\StoreController as BaseController;
-// use App\Http\Controllers\Core\Contracts\StoreManageContract;
-// use App\Http\Controllers\Core\Traits\StoreManageTrait;
-// use Exception;
 use App\Core\Uploader\VegetableImageUploader;
 use App\Core\QueryFilter\VegetableFilter;
 use App\Core\Responses\Vegetable\VegetableResponse;
 use App\Http\Controllers\Controller;
 use DB;
+use Exception;
+use App\Http\Controllers\Core\VegetableController as BaseController;
 
-class VegetableController extends Controller
+class VegetableController extends BaseController
 {
     protected $guard = 'admin';
-
-    public function __construct()
-    {
-        $this->middleware($this->authMiddleware());
-    }
-
-    public function index(Request $request, VegetableFilter $query)
-    {
-        try {
-            $itemPerPage = $request->get('items_per_page', Vegetable::ITEMS_PER_PAGE);
-            $vegetables = Vegetable::filterBy($query)
-                ->with(['images'])
-                ->paginate($itemPerPage)
-                ->toArray();
-            $vegetables['data'] = collect($vegetables['data'])->map(function ($vegetable) {
-                $vegetable['image'] = empty($vegetable['images']) ? null : $vegetable['images'][0];
-                unset($vegetable['images']);
-                return $vegetable;
-            })->toArray();
-            return VegetableResponse::listVegetableResponse('success', $vegetables);
-        } catch (Exception $e) {
-            return VegetableResponse::listVegetableResponse('error', null, $e->getMessage());
-        }
-    }
 
     public function create(Request $request)
     {

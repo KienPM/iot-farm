@@ -2,45 +2,9 @@
 
 namespace App\Http\Controllers\Partner;
 
-use Illuminate\Http\Request;
-use App\Models\Vegetable;
-use App\Core\Uploader\VegetableImageUploader;
-use App\Core\QueryFilter\VegetableFilter;
-use App\Core\Responses\Vegetable\VegetableResponse;
-use App\Http\Controllers\Controller;
-use DB;
+use App\Http\Controllers\Core\VegetableController as BaseController;
 
-class VegetableController extends Controller
+class VegetableController extends BaseController
 {
     protected $guard = 'partner';
-
-    public function __construct()
-    {
-        $this->middleware($this->authMiddleware());
-    }
-
-    public function index(Request $request, VegetableFilter $query)
-    {
-        try {
-            $all = $request->get('all', 0);
-
-            if ($all) {
-                $vegetables = [
-                    'data' => Vegetable::select(['id', 'name'])
-                        ->get()
-                        ->toArray(),
-                ];
-            } else {
-                $itemPerPage = $request->get('items_per_page', Vegetable::ITEMS_PER_PAGE);
-                $vegetables = Vegetable::filterBy($query)
-                    ->select(['id', 'name'])
-                    ->paginate($itemPerPage)
-                    ->toArray();
-            }
-
-            return VegetableResponse::listVegetableResponse('success', $vegetables);
-        } catch (Exception $e) {
-            return VegetableResponse::listVegetableResponse('error', null, $e->getMessage());
-        }
-    }
 }
