@@ -18,7 +18,7 @@ class StoreController extends BaseController
     use StoreManageTrait;
 
     protected $guard = 'admin';
-    protected $updateFields = ['partner_id', 'name', 'address', 'info', 'latitude', 'longitude', 'is_actived'];
+    protected $updateFields = ['partner_id', 'logo', 'name', 'address', 'phone_number', 'info', 'latitude', 'longitude', 'is_actived'];
 
     public function devices(Store $store, Request $request)
     {
@@ -46,6 +46,7 @@ class StoreController extends BaseController
                 'partner_id',
                 'name',
                 'address',
+                'phone_number',
                 'info',
                 'latitude',
                 'longitude',
@@ -127,8 +128,10 @@ class StoreController extends BaseController
     {
         $updateRules = [
             'partner_id' => 'required|exists:partners,id',
+            'logo' => 'string',
             'name' => 'string',
             'address' => 'required:string',
+            'phone_number' => 'numeric',
             'info' => 'max:50000',
             'is_actived' => 'boolean',
             'latitude' => 'numeric',
@@ -142,8 +145,10 @@ class StoreController extends BaseController
     {
         $createRules = [
             'partner_id' => 'required|exists:partners,id',
+            'logo' => 'string',
             'name' => 'string',
             'address' => 'required:string',
+            'phone_number' => 'numeric',
             'info' => 'max:50000',
             'is_actived' => 'boolean',
             'latitude' => 'numeric',

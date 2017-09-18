@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\Filterable;
+use Storage;
 use App\Models\Traits\Activeable;
 
 /**
@@ -46,7 +47,7 @@ class Store extends Model
      * @var array
      */
     protected $fillable = [
-        'partner_id', 'name', 'address', 'info', 'is_actived', 'latitude', 'longitude',
+        'partner_id', 'logo', 'name', 'address', 'phone_number', 'info', 'is_actived', 'latitude', 'longitude',
     ];
 
     protected $table = 'stores';
@@ -80,5 +81,14 @@ class Store extends Model
     public function images()
     {
         return $this->morphMany(Image::class, 'entityable');
+    }
+
+    public function getLogoAttribute($value)
+    {
+        $imageSrc = 'public/' . config('upload.path.logos_image') . '/' . $value;
+        if (Storage::exists($imageSrc)) {
+            return Storage::url($imageSrc);
+        }
+        return Storage::url('public/' . config('upload.path.default') . '/' . config('upload.default.logo_image'));
     }
 }

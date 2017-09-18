@@ -18,7 +18,7 @@ class StoreController extends BaseController implements StoreManageContract
     use StoreManageTrait;
 
     protected $guard = 'partner';
-    protected $updateFields = ['info'];
+    protected $updateFields = ['logo', 'name', 'address', 'phone_number', 'info', 'latitude', 'longitude'];
 
     protected function validateUpdateRequest($request, $store)
     {
@@ -27,7 +27,13 @@ class StoreController extends BaseController implements StoreManageContract
         }
 
         $updateRules = [
+            'logo' => 'string',
+            'name' => 'string',
+            'address' => 'required:string',
+            'phone_number' => 'numeric',
             'info' => 'max:50000',
+            'latitude' => 'numeric',
+            'longitude' => 'numeric',
         ];
 
         return $this->validate($request, $updateRules);
@@ -40,10 +46,10 @@ class StoreController extends BaseController implements StoreManageContract
         $all = $request->get('all', 0);
         if ($all) {
             $stores = [
-                'data' => Store::where('partner_id', $user->id)->get()->toArray(),
+                'data' => Store::where('partner_id', $user->id)->with('images')->get()->toArray(),
             ];
         } else {
-            $stores = Store::filterBy($query)->where('partner_id', $user->id)->paginate($itemPerPage)->toArray();
+            $stores = Store::filterBy($query)->where('partner_id', $user->id)->with('images')->paginate($itemPerPage)->toArray();
         }
 
         return ManageResponse::response(

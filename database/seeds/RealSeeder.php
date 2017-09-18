@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
 use App\Models\Vegetable;
+use App\Models\Store;
 use App\Models\Trunk;
 use App\Models\TrunkStatus;
 
@@ -34,7 +35,7 @@ class RealSeeder extends Seeder
                 'id' => 1,
                 'name' => 'hoanghoi-admin',
                 'email' => 'hoanghoi1310@gmail.com',
-                'phone_number' => '0982708002',
+                'phone_number' => '0982-708-092',
                 'is_super' => 1,
                 'password' => bcrypt('12344321'),
                 'created_at' => $now,
@@ -47,7 +48,7 @@ class RealSeeder extends Seeder
                 'id' => 1,
                 'name' => 'hoanghoi-partner',
                 'email' => 'hoanghoi1310@gmail.com',
-                'phone_number' => '0982708002',
+                'phone_number' => '0982-708-802',
                 'password' => bcrypt('12344321'),
                 'created_at' => $now,
                 'updated_at' => $now,
@@ -58,7 +59,7 @@ class RealSeeder extends Seeder
                 'id' => 1,
                 'name' => 'hoanghoi-user',
                 'email' => 'hoanghoi1310@gmail.com',
-                'phone_number' => '0982708002',
+                'phone_number' => '0982-708-072',
                 'password' => bcrypt('12344321'),
                 'created_at' => $now,
                 'updated_at' => $now,
@@ -69,6 +70,8 @@ class RealSeeder extends Seeder
             [
                 'id' => 1,
                 'partner_id' => 1,
+                'logo' => '',
+                'phone_number' => '0982-563-574',
                 'name' => 'Cửa hàng rau sạch Định Công',
                 'address' => 'Ngõ 175 Định Công, Hoàng Mai, Hà Nội',
                 'info' => 'Cửa hàng rau sạch Định Công chuyên cung cấp các loại rau củ chất lượng tốt, trồng trên giàn thủy canh, không sâu bệnh, không thuốc bảo vệ thực vật, giá cả hợp lý, an toàn cho mọi gia đình.',
@@ -804,6 +807,24 @@ class RealSeeder extends Seeder
                 'src' => 'xa_lach2.jpg',
                 'entityable_id' => 1,
                 'entityable_type' => Vegetable::class,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'id' => 37,
+                'title' => 'Store 1',
+                'src' => 'store_1_1.jpg',
+                'entityable_id' => 1,
+                'entityable_type' => Store::class,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'id' => 38,
+                'title' => 'Store 1',
+                'src' => 'store_1_2.jpg',
+                'entityable_id' => 1,
+                'entityable_type' => Store::class,
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
