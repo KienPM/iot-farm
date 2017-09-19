@@ -20,7 +20,8 @@ abstract class StoreController extends Controller
     {
         try {
             $itemPerPage = $request->get('items_per_page', Store::ITEMS_PER_PAGE);
-            $stores = Store::filterBy($query)->with(['partner', 'images'])->paginate($itemPerPage)->toArray();
+            $stores = Store::filterBy($query)
+                ->with(['partner', 'images'])->paginate($itemPerPage)->toArray();
 
             return ManageResponse::listStoreResponse('success', $stores);
         } catch (Exception $e) {
@@ -41,11 +42,8 @@ abstract class StoreController extends Controller
 
     protected function orderByDistance($stores, $latitude, $longitude)
     {
-        $stores = collect($stores);
-        $stores = $stores->sortBy(function ($store) use ($latitude, $longitude) {
-            return pow(($store['latitude'] - $latitude), 2) + pow(($store['longitude'] - $longitude), 2);
-        })->values();
-
+        $match = '(POW((latitude-?),2) + POW((longitude-?),2))';
+        $stores = $stores->orderByRaw($match . " ASC", [$latitude, $longitude]);
         return $stores;
     }
 }

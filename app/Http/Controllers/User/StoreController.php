@@ -36,6 +36,13 @@ class StoreController extends BaseController
 
             $stores = $stores->with(['partner', 'images']);
 
+            $latitude = $request->get('latitude', null);
+            $longitude = $request->get('longitude', null);
+
+            if ($latitude !== null && $longitude !== null) {
+                $stores = $this->orderByDistance($stores, $latitude, $longitude);
+            }
+
             $all = $request->get('all', 0);
             if ($all) {
                 $stores = [
@@ -44,14 +51,6 @@ class StoreController extends BaseController
             } else {
                 $itemPerPage = $request->get('items_per_page', Store::ITEMS_SEARCH_PER_PAGE);
                 $stores = $stores->paginate($itemPerPage)->toArray();
-            }
-
-            $latitude = $request->get('latitude', null);
-            $longitude = $request->get('longitude', null);
-            // dd($latitude, $longitude);
-
-            if ($latitude !== null && $longitude !== null) {
-                $stores['data'] = $this->orderByDistance($stores['data'], $latitude, $longitude);
             }
 
             return ManageResponse::listStoreResponse('success', $stores);

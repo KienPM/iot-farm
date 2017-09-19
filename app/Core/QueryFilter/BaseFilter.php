@@ -43,6 +43,10 @@ abstract class BaseFilter extends QueryFilter
 
     protected function applyOrderFilter()
     {
+        if (empty($this->getFilterValue($this->avaiableFilters['order']['sort_by']))
+            || empty($this->getFilterValue($this->avaiableFilters['order']['sort_type']))) {
+            return $this->builder;
+        }
         $orderBy = $this->getFilterValue($this->avaiableFilters['order']['sort_by']) ?: 'id';
         $sortType = $this->getFilterValue($this->avaiableFilters['order']['sort_type']) ?: 'DESC';
 
