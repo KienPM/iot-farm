@@ -48,6 +48,7 @@ class StoreController extends BaseController
 
             $latitude = $request->get('latitude', null);
             $longitude = $request->get('longitude', null);
+            // dd($latitude, $longitude);
 
             if ($latitude !== null && $longitude !== null) {
                 $stores['data'] = $this->orderByDistance($stores['data'], $latitude, $longitude);
