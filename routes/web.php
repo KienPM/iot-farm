@@ -79,6 +79,10 @@ Route::group(['namespace' => 'User'], function () {
         Route::post('register', 'SessionController@register');
     });
 
+    Route::group(['prefix' => 'vegetables'], function () {
+        Route::get('/', 'VegetableController@index');
+    });
+
     Route::group(['prefix' => 'stores'], function () {
         Route::get('/', 'StoreController@index');
         Route::get('{store}', 'StoreController@show');
