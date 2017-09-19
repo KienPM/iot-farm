@@ -926,30 +926,6 @@ class RealSeeder extends Seeder
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
-            [
-                'id' => 13,
-                'vegetable_id' => 12,
-                'store_id' => 1,
-                'price' => 15000,
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-            [
-                'id' => 14,
-                'vegetable_id' => 12,
-                'store_id' => 1,
-                'price' => 10000,
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-            [
-                'id' => 15,
-                'vegetable_id' => 12,
-                'store_id' => 1,
-                'price' => 5000,
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
         ]);
 
         factory(Trunk::class, 10)->create([

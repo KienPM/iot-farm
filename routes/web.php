@@ -84,7 +84,7 @@ Route::group(['namespace' => 'User'], function () {
     });
 
     Route::group(['prefix' => 'stores'], function () {
-        Route::get('/', 'StoreController@index');
+        Route::any('/', 'StoreController@index');
         Route::get('{store}', 'StoreController@show');
     });
 

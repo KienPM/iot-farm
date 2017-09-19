@@ -40,6 +40,7 @@ class Store extends Model
     use Filterable, Activeable;
 
     const ITEMS_PER_PAGE = 10;
+    const ITEMS_SEARCH_PER_PAGE = 5;
 
     /**
      * The attributes that are mass assignable.
@@ -76,6 +77,11 @@ class Store extends Model
     {
         return $this->belongsToMany(Vegetable::class, 'vegetable_in_store')
             ->withPivot(['id', 'price']);
+    }
+
+    public function vegetablesInStore()
+    {
+        return $this->hasMany(VegetableInStore::class);
     }
 
     public function images()

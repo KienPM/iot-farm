@@ -38,4 +38,14 @@ abstract class StoreController extends Controller
             return ManageResponse::showStoreResponse('error');
         }
     }
+
+    protected function orderByDistance($stores, $latitude, $longitude)
+    {
+        $stores = collect($stores);
+        $stores = $stores->sortBy(function ($store) use ($latitude, $longitude) {
+            return pow(($store['latitude'] - $latitude), 2) + pow(($store['longitude'] - $longitude), 2);
+        });
+
+        return $stores;
+    }
 }
