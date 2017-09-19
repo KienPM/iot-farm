@@ -44,7 +44,7 @@ abstract class StoreController extends Controller
         $stores = collect($stores);
         $stores = $stores->sortBy(function ($store) use ($latitude, $longitude) {
             return pow(($store['latitude'] - $latitude), 2) + pow(($store['longitude'] - $longitude), 2);
-        });
+        })->values();
 
         return $stores;
     }
