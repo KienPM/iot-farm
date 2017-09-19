@@ -513,6 +513,41 @@ Items Per page: Số items trong 1 page, mặc định là 10. Có thể set b�
 ```
 **Response:** Giống list items. `status = success` là xóa thành công. `status = error` là xóa ko thành công
 
+## 7. User search stores
+
+### Mô tả
+
+User chọn các loại rau, sau đó tìm kiếm các cửa hàng có tất cả các loại rau đấy.
+
+### Xem các loại rau có trong hệ thống
+
+**Path:** /vegetables
+
+**Method:** GET
+
+### Tìm kiếm cửa hàng
+
+**Path:** /stores
+
+**Method:** POST hoặc GET
+
+**Data:** Truyền vào một mảng vegetable id nếu muốn tìm theo danh sách rau
+```
+{
+    vegetables: [1, 2, 3]
+}
+```
+
+**Response:**
+
+Danh sách store thỏa mãn điều kiện. Trả về như list stores. 
+
+**Thông tin thêm:**
+- Url này chấp nhận cả POST và GET  request
+- Kết quả trả về có phân trang. Có thể thay đổi số items trên 1 trang qua param `items_per_page=số trang` . Có thể hiện thị tất cả các kết quả bằng param `all=1`
+- Sắp xếp theo tọa độ gần nhất nếu có thuộc tính `latitude` và `longitude`. Ví dụ: `/stores?latitude=20.9813732=&longitude=105.8370336`
+- Tìm kiếm theo địa chỉ, thông tin chi tiết `?quick_search=tu_khoa_can_tim`
+
 ## Thông báo lỗi
 ### Link không tồn tại (not found)
 ```
