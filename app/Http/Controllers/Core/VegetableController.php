@@ -35,6 +35,20 @@ abstract class VegetableController extends Controller
                     ->paginate($itemPerPage)
                     ->toArray();
             }
+
+            $vegetables['data'] = collect($vegetables['data'])->transform(function ($item) {
+                $images = [];
+                if (empty($item['images'])) {
+                    $images[] = url('public/' . config('upload.path.default') . '/' . config('upload.default.vegetable_image'));
+                } else {
+                    $images = collect($item['images'])->transform(function ($image) {
+                        return url($image['src']);
+                    })->toArray();
+                }
+                $item['images'] = $images;
+                return $item;
+            });
+
             return VegetableResponse::listVegetableResponse('success', $vegetables);
         } catch (Exception $e) {
             return VegetableResponse::listVegetableResponse('error', null, $e->getMessage());
