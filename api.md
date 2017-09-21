@@ -470,13 +470,21 @@ Items Per page: Số items trong 1 page, mặc định là 10. Có thể set b�
 **Data:**
 ```
 {
-    vegetable_id: 6,
-    quantity: 3,
+    vegetables: [
+        {id: 6, quantity: 3},
+        {id: 3, quantity: 3},
+        {id: 2, quantity: 3},
+    ],
     store_id: 101
 }
 ```
 
 **Response:** Giống list items. `status = success` là add thành công. `status = error` là add ko thành công
+
+**Chú ý:**
+
+- Nếu không có quantity thì mặc định là 1
+- Nếu không có rau nào được tìm thấy thì sẽ báo lỗi.
 
 
 ### Update items in cart
