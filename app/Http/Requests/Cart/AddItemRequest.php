@@ -24,9 +24,10 @@ class AddItemRequest extends FormRequest
     public function rules()
     {
         return [
-            'vegetable_id' => 'required|integer',
+            'vegetables' => 'required|array',
+            'vegetables.*.id' => 'required|integer',
+            'vegetables.*.quantity' => 'integer',
             'store_id' => 'required|integer',
-            'quantity' => 'required|integer',
         ];
     }
 }

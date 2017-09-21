@@ -74,8 +74,8 @@ class CartController extends Controller
                 $returnUrl,
                 $transactionInfo,
                 $orderCode,
-                // $orderInfo['total_price'],
-                2000,
+                $orderInfo['total_price'],
+                // 2000,
                 $currency,
                 $quantity,
                 $tax,
@@ -147,29 +147,19 @@ class CartController extends Controller
         $itemPerPage = $request->get('items_per_page', CartItem::ITEMS_PER_PAGE);
         $user = $request->user();
         try {
-            $vegetableId = $request->get('vegetable_id');
+            $vegetables = collect($request->get('vegetables'));
+            $vegetableIds = $vegetables->pluck('id');
             $storeId = $request->get('store_id');
-            $vegetableInStore = VegetableInStore::where('vegetable_id', $vegetableId)
+            $vegetablesInStore = VegetableInStore::whereIn('vegetable_id', $vegetableIds)
                 ->where('store_id', $storeId)
-                ->first();
+                ->get();
 
-            if (!$vegetableInStore) {
+            if ($vegetablesInStore->isEmpty()) {
                 throw new Exception(trans('message.not_found', ['name' => studly_case(trans('name.vegetable'))]));
             }
-
-            $quantity = $request->get('quantity');
-            $cartItem = $user->cartItems()
-                ->where('vegetable_in_store_id', $vegetableInStore->id)
-                ->first();
-            if ($cartItem) {
-                $cartItem->update([
-                    'quantity' => $cartItem->quantity + $quantity,
-                ]);
-            } else {
-                $user->cartItems()->create([
-                    'vegetable_in_store_id' => $vegetableInStore->id,
-                    'quantity' => $quantity ? $quantity : 1,
-                ]);
+            foreach ($vegetablesInStore as $vegetableInStore) {
+                $quantity = $this->getItemQuantity($vegetableInStore->vegetable_id, $vegetables);
+                $this->addOrUpdateCartItem($user, $vegetableInStore->id, $quantity);
             }
 
             $data = $this->getCartItemsWithRelation($user, $itemPerPage);
@@ -178,6 +168,38 @@ class CartController extends Controller
             $data = $this->getCartItemsWithRelation($user, $itemPerPage);
             return CartResponse::addItemResponse('error', $data, $e->getMessage());
         }
+    }
+
+    protected function addOrUpdateCartItem($user, $vegetableInStoreId, $quantity = 1)
+    {
+        $cartItem = $user->cartItems()
+            ->where('vegetable_in_store_id', $vegetableInStoreId)
+            ->first();
+        if ($cartItem) {
+            $cartItem->update([
+                'quantity' => $cartItem->quantity + $quantity,
+            ]);
+        } else {
+            $user->cartItems()->create([
+                'vegetable_in_store_id' => $vegetableInStoreId,
+                'quantity' => $quantity,
+            ]);
+        }
+    }
+
+    protected function getItemQuantity($id, $vegetables)
+    {
+        foreach ($vegetables as $vegetable) {
+            if ($vegetable['id'] == $id) {
+                if (isset($vegetable['quantity'])) {
+                    return $vegetable['quantity'];
+                }
+
+                return 1;
+            }
+        }
+
+        return 1;
     }
 
     public function updateItem(CartItem $item, UpdateItemRequest $request)
@@ -233,7 +255,20 @@ class CartController extends Controller
 
     protected function getCartItemsWithRelation($user, $itemPerPage = CartItem::ITEMS_PER_PAGE)
     {
-        return $user->cartItems()->with('vegetableInStore.vegetable.images')->paginate($itemPerPage)->toArray();
+        $items = $user->cartItems()->with('vegetableInStore.vegetable.images')->paginate($itemPerPage)->toArray();
+        $items['data'] = collect($items['data'])->transform(function ($item) {
+            if (empty($item['vegetable_in_store']['vegetable']['images'])) {
+                $images[] = url('public/' . config('upload.path.default') . '/' . config('upload.default.vegetable_image'));
+            } else {
+                $images = collect($item['vegetable_in_store']['vegetable']['images'])->transform(function ($image) {
+                    return url($image['src']);
+                })->toArray();
+            }
+            $item['vegetable_in_store']['vegetable']['images'] = $images;
+            return $item;
+        })->toArray();
+
+        return $items;
     }
 
     protected function generateOrderInfo($items)
@@ -250,7 +285,7 @@ class CartController extends Controller
             $totalPrice += $price;
             $orderDescription .= $item->quantity . '*';
             $orderDescription .= $item->vegetableInStore->vegetable->name . ' ';
-            $orderDescription .= number_format($price , 0, ',', '.') . '.000 vnd, ';
+            $orderDescription .= number_format($price , 0, ',', '.') . ' vnd, ';
             $orderItems[] = [
                 'vegetable_in_store_id' => $item->vegetable_in_store_id,
                 'quantity' => $item->quantity,
@@ -284,12 +319,8 @@ class CartController extends Controller
     protected function addCartItems(User $user, $items)
     {
         $items = $items->map(function ($item) {
-            return [
-                'vegetable_in_store_id' => $item['vegetable_in_store_id'],
-                'quantity' => $item['quantity'],
-            ];
+            $this->addOrUpdateCartItem($user, $item['vegetable_in_store_id'], $item['quantity']);
         });
-        return $user->cartItems()->createMany($items->toArray());
     }
 
     protected function removeOrderAndItems(Order $order)
