@@ -47,14 +47,14 @@ class Image extends Model
                 return Storage::url($imageSrc);
             }
 
-            return 'public/' . config('upload.path.default') . '/' . config('upload.default.vegetable_image');
+            return 'storage/' . config('upload.path.default') . '/' . config('upload.default.vegetable_image');
         } elseif ($this->entityable_type == Store::class) {
             $imageSrc = 'public/' . config('upload.path.stores_image') . '/' . $value;
             if (Storage::exists($imageSrc)) {
                 return Storage::url($imageSrc);
             }
 
-            return 'public/' . config('upload.path.default') . '/' . config('upload.default.store_image');
+            return 'storage/' . config('upload.path.default') . '/' . config('upload.default.store_image');
         }
 
         return $value;

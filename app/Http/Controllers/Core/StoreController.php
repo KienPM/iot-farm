@@ -34,6 +34,19 @@ abstract class StoreController extends Controller
         try {
             $store = $store->load(['partner', 'vegetables.images', 'images'])->toArray();
 
+            $store['vegetables'] = collect($store['vegetables'])->transform(function ($item) {
+                $images = [];
+                if (empty($item['images'])) {
+                    $images[] = url('public/' . config('upload.path.default') . '/' . config('upload.default.vegetable_image'));
+                } else {
+                    $images = collect($item['images'])->transform(function ($image) {
+                        return url($image['src']);
+                    })->toArray();
+                }
+                $item['images'] = $images;
+                return $item;
+            })->toArray();
+
             return ManageResponse::showStoreResponse('success', $store);
         } catch (Exception $e) {
             return ManageResponse::showStoreResponse('error');
