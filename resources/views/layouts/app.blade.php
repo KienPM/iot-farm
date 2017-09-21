@@ -19,7 +19,7 @@
             <div class="container">
                 <div class="navbar-header" style="min-height: 60px;">
                     <div class="navbar-brand" style="font-size: 1.6em; font-weight: bold; display: flex;">
-                        <img src="images/logo.png" alt="logo" height="60px" style="margin: -14px 0" />
+                        <img src="/images/logo.png" alt="logo" height="60px" style="margin: -14px 0" />
                         <span style="padding-left: 10px; padding-top: 5px;">{{ config('app.name', 'Farmily') }}</span>
                     </div>
                 </div>

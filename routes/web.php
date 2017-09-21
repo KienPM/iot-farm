@@ -22,6 +22,18 @@ Route::group(['prefix' => 'test'], function () {
     Route::get('partner', function () {
         return view('test/partner');
     });
+    Route::group(['prefix' => 'checkout'], function () {
+        Route::get('success', function () {
+            return view('checkout.success', [
+                'order' => App\Models\Order::with('items.vegetablesInStore.vegetable')
+                    ->first()
+                    ->toArray(),
+            ]);
+        });
+        Route::get('cancel', function () {
+            return view('checkout.cancel');
+        });
+    });
 });
 
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
