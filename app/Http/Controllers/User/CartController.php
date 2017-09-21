@@ -109,7 +109,7 @@ class CartController extends Controller
             $items = $user->checkedItems()->with('vegetableInStore.vegetable')->get();
             $this->removeCartItems($items);
 
-            return view('checkout');
+            return view('checkout.success', ['order' => $order->load('items.vegetablesInStore.vegetable')->toArray()]);
             // return CartResponse::checkOutResponse(
             //     'success',
             //     trans('response.checkout_success', ['orderId' => $order->code]),
@@ -134,8 +134,9 @@ class CartController extends Controller
             $this->addCartItems($user, $items);
             $this->removeOrderAndItems($order);
             DB::commit();
+            return view('checkout.cancel');
 
-            return CartResponse::checkOutResponse('warning', trans('response.checkout_cancel'));
+            // return CartResponse::checkOutResponse('warning', trans('response.checkout_cancel'));
         } catch (Exception $e) {
             DB::rollBack();
             return CartResponse::checkOutResponse('error', $e->getMessage());
