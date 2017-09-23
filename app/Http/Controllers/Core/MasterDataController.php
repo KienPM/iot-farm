@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 abstract class MasterDataController extends Controller
 {
     protected $dataTypeAvaiable = [
-        'vegetable' => [
+        'vegetables' => [
             'class' => Vegetable::class,
             'select' => ['id', 'name'],
         ],
