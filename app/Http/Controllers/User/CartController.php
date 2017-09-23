@@ -9,6 +9,7 @@ use App\Models\CartItem;
 use App\Models\VegetableInStore;
 use App\Models\Order;
 use App\Models\User;
+use App\Models\Store;
 use App\Http\Requests\Cart\AddItemRequest;
 use App\Http\Requests\Cart\UpdateItemRequest;
 use App\Http\Requests\Cart\DeleteItemRequest;
@@ -268,6 +269,14 @@ class CartController extends Controller
             $item['vegetable_in_store']['vegetable']['images'] = $images;
             return $item;
         })->toArray();
+
+        if (empty($items['data'])) {
+            $items['store'] = null;
+        } else {
+            $items['store'] = Store::select(['id', 'logo', 'name', 'address', 'phone_number', 'longitude', 'latitude'])
+                ->where('id', $items['data'][0]['vegetable_in_store']['store_id'])
+                ->first();
+        }
 
         return $items;
     }
