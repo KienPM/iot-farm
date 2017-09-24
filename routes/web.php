@@ -110,8 +110,8 @@ Route::group(['namespace' => 'User'], function () {
         Route::get('delete', 'CartController@deleteAll');
         Route::group(['prefix' => 'checkout'], function () {
             Route::get('/', 'CartController@checkout');
-            Route::get('return/{order}', 'CartController@checkoutReturn');
-            Route::get('cancel/{order}', 'CartController@checkoutCancel');
+            Route::get('return', 'CartController@checkoutReturn');
+            Route::get('cancel', 'CartController@checkoutCancel');
         });
         Route::group(['prefix' => 'items'], function () {
             Route::get('/', 'CartController@index');

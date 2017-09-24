@@ -63,8 +63,10 @@ class CartController extends Controller
             $order = $this->addOrderAndItems($user, $orderCode, $orderInfo);
             // $this->removeCartItems($items);
 
-            $returnUrl = url(config('order.return_url') . '/' . $order->id);
-            $cancelUrl = url(config('order.cancel_url') . '/' . $order->id);
+            $returnUrl = url(config('order.return_url'));
+            $cancelUrl = url(config('order.cancel_url'));
+            // Store order id
+            $request->session()->put('order_process_id', $order->id);
 
             // Thong tin khach hang
             $name = $user->name;
@@ -106,16 +108,50 @@ class CartController extends Controller
             return redirect($url);
         } catch (Exception $e) {
             DB::rollBack();
-            return CartResponse::checkOutResponse('error', $e->getMessage());
+
+            return view('checkout.cart-empty');
+            // return CartResponse::checkOutResponse('error', $e->getMessage());
         }
     }
 
-    public function checkoutReturn(Order $order, Request $request)
+    protected function checkPayment(Request $request)
     {
+
+        $transaction_info = $request->get('transaction_info', '');
+        $order_code = $request->get('order_code', '');
+        $price = $request->get('price', 0);
+        $payment_id = $request->get('payment_id', '');
+        $payment_type = $request->get('payment_type', '');
+        $error_text = $request->get('error_text', '');
+        $secure_code = $request->get('secure_code', '');
+        //Khai báo đối tượng của lớp NL_Checkout
+        $nl= new NganLuongCheckout();
+        // $nl->merchant_site_code = MERCHANT_ID;
+        // $nl->secure_pass = MERCHANT_PASS;
+        //Tạo link thanh toán đến nganluong.vn
+        return $nl->verifyPaymentUrl(
+            $transaction_info,
+            $order_code,
+            $price,
+            $payment_id,
+            $payment_type,
+            $error_text,
+            $secure_code
+        );
+    }
+
+    public function checkoutReturn(Request $request)
+    {
+        if (!$this->checkPayment($request)) {
+            return view('checkout.payment-failed');
+        }
+
         $user = $request->user();
         try {
-            if ($order->user_id != $user->id || $order->status > 1) {
-                throw new Exception(trans('message.not_found', ['name' => studly_case(trans('order'))]));
+            $order = $this->getProcessOrder($request, $user);
+
+            if ($request->get('order_code', null) != $order->code) {
+                throw new Exception('Oder code not match!');
             }
 
             $order->update([
@@ -133,18 +169,36 @@ class CartController extends Controller
             //     ]
             // );
         } catch (Exception $e) {
-            return CartResponse::checkOutResponse('error', $e->getMessage());
+            return view('checkout.order-not-found');
+            // return CartResponse::checkOutResponse('error', $e->getMessage());
         }
     }
 
-    public function checkoutCancel(Order $order, Request $request)
+    protected function getProcessOrder(Request $request, $user)
     {
+        $orderId = $request->session()->pull('order_process_id', null);
+        $request->session()->forget('order_process_id');
+        $request->session()->put('order_process_id', null);
+
+        if (empty($orderId)) {
+            throw new Exception(trans('message.not_found', ['name' => studly_case(trans('order'))]));
+        }
+
+        $order = Order::find($orderId);
+
+        if (empty($order) || $order->user_id != $user->id || $order->status > 1) {
+            throw new Exception(trans('message.not_found', ['name' => studly_case(trans('order'))]));
+        }
+
+        return $order;
+    }
+
+    public function checkoutCancel(Request $request)
+    {
+        $user = $request->user();
         try {
             DB::beginTransaction();
-            $user = $request->user();
-            if ($order->user_id != $user->id || $order->status > 1) {
-                throw new Exception(trans('message.not_found', ['name' => studly_case(trans('order'))]));
-            }
+            $order = $this->getProcessOrder($request, $user);
             $items = $order->items()->get();
             $this->addCartItems($user, $items);
             $this->removeOrderAndItems($order);
@@ -154,7 +208,9 @@ class CartController extends Controller
             // return CartResponse::checkOutResponse('warning', trans('response.checkout_cancel'));
         } catch (Exception $e) {
             DB::rollBack();
-            return CartResponse::checkOutResponse('error', $e->getMessage());
+
+            return view('checkout.order-not-found');
+            // return CartResponse::checkOutResponse('error', $e->getMessage());
         }
     }
 
@@ -342,7 +398,7 @@ class CartController extends Controller
 
     protected function addCartItems(User $user, $items)
     {
-        $items = $items->map(function ($item) {
+        $items = $items->map(function ($item) use ($user) {
             $this->addOrUpdateCartItem($user, $item['vegetable_in_store_id'], $item['quantity']);
         });
     }
