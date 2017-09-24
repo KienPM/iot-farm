@@ -34,6 +34,20 @@ class CartController extends Controller
         return CartResponse::showCartResponse('success', $data);
     }
 
+    public function deleteAll(Request $request)
+    {
+        $itemPerPage = $request->get('items_per_page', CartItem::ITEMS_PER_PAGE);
+        $user = $request->user();
+        try {
+            $items = $user->cartItems()->delete();
+            $data = $this->getCartItemsWithRelation($user, $itemPerPage);
+            return CartResponse::deleteItemsResponse('success', $data);
+        } catch (Exception $e) {
+            $data = $this->getCartItemsWithRelation($user, $itemPerPage);
+            return CartResponse::deleteItemsResponse('error', $data, $e->getMessage());
+        }
+    }
+
     public function checkout(Request $request)
     {
         try {
