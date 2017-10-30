@@ -22,6 +22,9 @@ Route::group(['prefix' => 'test'], function () {
     Route::get('partner', function () {
         return view('test/partner');
     });
+    Route::get('device', function () {
+        return view('test/device');
+    });
     Route::group(['prefix' => 'checkout'], function () {
         Route::get('success', function () {
             return view('checkout.success', [
