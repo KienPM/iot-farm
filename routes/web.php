@@ -147,6 +147,7 @@ Route::group(['namespace' => 'Partner', 'prefix' => 'partner'], function () {
                 Route::group(['prefix' => '{date}'], function () {
                     Route::get('month', 'StoreController@getMonthlyOrders');
                     Route::get('week', 'StoreController@getWeeklyOrders');
+                    Route::get('day/{endDate}', 'StoreController@getDaylyOrders');
                 });
             });
         });
