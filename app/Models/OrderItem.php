@@ -38,4 +38,9 @@ class OrderItem extends Model
     {
         return $this->belongsTo(VegetableInStore::class, 'vegetable_in_store_id');
     }
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
 }
