@@ -13,6 +13,7 @@
     <h1>Login name: <span id="name"></span></h1>
     <h1>Login email: <span id="email"></span></h1>
     <h1>Partner id: <span id="id"></span></h1>
+    <button id="get-status">Get status</button>
 
     <div class="form">
         <input id="email_login" value="hoanghoi1310@gmail.com" placeholder="Email" />
@@ -95,6 +96,11 @@
                         var data = $(this).siblings('.device-state-update').val();
                         socket.emit("change_device_state", { device_id, data })
                     })
+
+                    $("get-status").on("click", function() {
+                        var device_id = $(this).siblings('.device-id').text();
+                        socket.emit("get_status", {device_id});
+                    });
                 })
             }
 
