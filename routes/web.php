@@ -143,6 +143,12 @@ Route::group(['namespace' => 'Partner', 'prefix' => 'partner'], function () {
                 Route::get('status', 'TrunkController@trunksStatus');
                 Route::post('status', 'TrunkController@updateTrunksStatus');
             });
+            Route::group(['prefix' => 'orders'], function () {
+                Route::group(['prefix' => '{date}'], function () {
+                    Route::get('month', 'StoreController@getMonthlyOrders');
+                    Route::get('week', 'StoreController@getWeeklyOrders');
+                });
+            });
         });
     });
 
