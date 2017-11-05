@@ -52,4 +52,9 @@ class Vegetable extends Model
         return $this->belongsToMany(Store::class, 'vegetable_in_store')
             ->withPivot(['id', 'price']);
     }
+
+    public function orderItems()
+    {
+        return $this->hasManyThrough(OrderItem::class, VegetableInStore::class);
+    }
 }

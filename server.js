@@ -51,7 +51,25 @@ function partner(socket) {
         .emit("device_list", getAvailableDevices(socket.decoded_token.stores, devices));
 
     this._socket.on("change_device_state", function (data) {
-        io.sockets.emit("change_device_" + data.device_id + "_state", data.data);
+        data = data.data;
+        var a = data.indexOf('*');
+        var dataJson;
+        var dataEmit;
+        if (a && data.indexOf('*', a + 1)) {
+            data = data.replace(/\*/g, '"');
+            try {
+                dataJson = JSON.parse(data);
+                dataEmit = dataJson;
+                console.log('data parse');
+                console.log(dataJson);
+            } catch(err) {
+                dataEmit = data;
+                console.log(err);
+            }
+        } else {
+            dataEmit = data;
+        }
+        io.sockets.emit("change_device_" + data.device_id + "_state", dataEmit);
     });
 }
 
