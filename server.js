@@ -79,7 +79,7 @@ function device(socket) {
         if (a && preData.indexOf('*', a + 1)) {
             preData = preData.replace(/\*/g, '"');
             try {
-                dataJson = JSON.parse(preData);
+                dataJson = JSON.parse('{' + preData + '}');
                 dataEmit = dataJson;
                 console.log('data parse');
                 console.log(dataJson);
