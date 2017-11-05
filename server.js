@@ -72,11 +72,13 @@ function device(socket) {
     this._socket.join("store_room_" + socket.decoded_token.store_id);
 
     this._socket.on("device_state", function (data) {
-        var preData = data.data;
+        var preData = typeof data.data == 'undefined' ? data : data.data;
         var a = preData.indexOf('*');
         var dataJson;
         var dataEmit;
-        if (a && preData.indexOf('*', a + 1)) {
+        console.log(preData, a);
+        if (a!=-1 && preData.indexOf('*', a + 1)!=-1) {
+            console.log('****');
             preData = preData.replace(/\*/g, '"');
             try {
                 dataJson = JSON.parse('{' + preData + '}');
