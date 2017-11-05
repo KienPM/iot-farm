@@ -51,25 +51,7 @@ function partner(socket) {
         .emit("device_list", getAvailableDevices(socket.decoded_token.stores, devices));
 
     this._socket.on("change_device_state", function (data) {
-        data = data.data;
-        var a = data.indexOf('*');
-        var dataJson;
-        var dataEmit;
-        if (a && data.indexOf('*', a + 1)) {
-            data = data.replace(/\*/g, '"');
-            try {
-                dataJson = JSON.parse(data);
-                dataEmit = dataJson;
-                console.log('data parse');
-                console.log(dataJson);
-            } catch(err) {
-                dataEmit = data;
-                console.log(err);
-            }
-        } else {
-            dataEmit = data;
-        }
-        io.sockets.emit("change_device_" + data.device_id + "_state", dataEmit);
+        io.sockets.emit("change_device_" + data.device_id + "_state", data.data);
     });
 }
 
@@ -90,7 +72,25 @@ function device(socket) {
     this._socket.join("store_room_" + socket.decoded_token.store_id);
 
     this._socket.on("device_state", function (data) {
-        io.sockets.emit("device_" + data.device_id + "_state", data.data);
+        var preData = data.data;
+        var a = preData.indexOf('*');
+        var dataJson;
+        var dataEmit;
+        if (a && preData.indexOf('*', a + 1)) {
+            preData = preData.replace(/\*/g, '"');
+            try {
+                dataJson = JSON.parse(preData);
+                dataEmit = dataJson;
+                console.log('data parse');
+                console.log(dataJson);
+            } catch(err) {
+                dataEmit = preData;
+                console.log(err);
+            }
+        } else {
+            dataEmit = preData;
+        }
+        io.sockets.emit("device_" + data.device_id + "_state", dataEmit);
     });
 }
 
